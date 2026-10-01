@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title th:text="${site.title}">网站首页</title>
+  <link rel="stylesheet" th:href="@{/themes/theme-shop/assets/style.css}" />
+</head>
+<body>
+  <header class="site-header"><a class="brand" th:href="@{/}" th:text="${site.title}">Halo Shop</a><nav><a th:href="@{/}">文章</a><a th:href="@{/shop}">商城</a></nav></header>
+  <main class="container">
+    <div class="hero"><p class="eyebrow">HALO SHOP</p><h1>内容与好物，都在这里</h1><p>浏览最新文章，也可以前往商城挑选商品。</p><a class="button" th:href="@{/shop}">进入商城</a></div>
+    <section class="section"><h2>最新文章</h2><div class="cards"><article class="card" th:each="post : ${posts.items}"><h3><a th:href="${post.status.permalink}" th:text="${post.spec.title}">文章标题</a></h3><p th:text="${post.spec.excerpt?.raw}">文章摘要</p></article></div><p th:if="${posts.total == 0}">暂时还没有文章。</p></section>
+    <nav class="pager"><a th:if="${posts.hasPrevious()}" th:href="${posts.prevUrl}">上一页</a><a th:if="${posts.hasNext()}" th:href="${posts.nextUrl}">下一页</a></nav>
+  </main>
+  <footer>Powered by Halo · Shop Starter</footer><halo:footer />
+</body>
+</html>

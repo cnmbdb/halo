@@ -1,0 +1,40 @@
+apiVersion: v1alpha1
+kind: Role
+metadata:
+  name: role-template-shop-public
+  labels:
+    halo.run/role-template: "true"
+    halo.run/hidden: "true"
+    rbac.authorization.halo.run/aggregate-to-anonymous: "true"
+rules:
+  - apiGroups: ["api.shop.cnmbdb.github.io"]
+    resources: ["products"]
+    verbs: ["get", "list"]
+---
+apiVersion: v1alpha1
+kind: Role
+metadata:
+  name: role-template-shop-customer
+  labels:
+    halo.run/role-template: "true"
+  annotations:
+    rbac.authorization.halo.run/module: "商城"
+    rbac.authorization.halo.run/display-name: "商城下单"
+rules:
+  - apiGroups: ["uc.api.shop.cnmbdb.github.io"]
+    resources: ["orders"]
+    verbs: ["create"]
+---
+apiVersion: v1alpha1
+kind: Role
+metadata:
+  name: role-template-shop-manager
+  labels:
+    halo.run/role-template: "true"
+  annotations:
+    rbac.authorization.halo.run/module: "商城"
+    rbac.authorization.halo.run/display-name: "商城管理"
+rules:
+  - apiGroups: ["shop.cnmbdb.github.io"]
+    resources: ["products", "shoporders"]
+    verbs: ["get", "list", "create", "update", "patch", "delete"]
