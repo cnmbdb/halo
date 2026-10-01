@@ -31,7 +31,7 @@ cd halo
 bash shop/dev/start-local.sh
 ```
 
-脚本用临时 JDK 容器构建插件，再启动本地 Halo。访问 `http://localhost:8090/system/setup` 创建管理员。进入后台上传 `shop/build/libs/plugin-shop-1.0.0-SNAPSHOT.jar` 并启用插件，然后启用已挂载的 `Shop Starter` 主题。`/shop` 是商城入口。Halo 数据保存在 Docker 命名卷 `halo-shop-local_halo_data`；云端工作区继续用于修改代码和提交分支。
+脚本先启动本地 Halo、确认健康检查通过，再用临时 JDK 容器构建插件。访问 `http://localhost:8090/system/setup` 创建管理员。进入后台上传 `shop/build/libs/plugin-shop-1.0.0-SNAPSHOT.jar` 并启用插件，然后启用已挂载的 `Shop Starter` 主题。`/shop` 是商城入口。Halo 数据保存在 Docker 命名卷 `halo-shop-local_halo_data`；云端工作区继续用于修改代码和提交分支。
 
 如本机 8090 端口已占用，运行 `HALO_PORT=8091 bash shop/dev/start-local.sh`。本地浏览器随后访问 `http://localhost:8091/system/setup`。主题模板是绑定挂载，修改后刷新页面即可查看变化；插件 Java 代码修改后需重新构建并在 Halo 后台升级插件。
 
