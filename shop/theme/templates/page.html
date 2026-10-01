@@ -1,0 +1,5 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="https://www.thymeleaf.org">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title th:text="${singlePage.spec.title}">页面</title><link rel="stylesheet" th:href="@{/themes/theme-shop/assets/style.css}" /></head>
+<body><header class="site-header"><a class="brand" th:href="@{/}" th:text="${site.title}">Halo Shop</a><nav><a th:href="@{/}">文章</a><a th:href="@{/shop}">商城</a></nav></header><main class="container prose"><article><h1 th:text="${singlePage.spec.title}">页面标题</h1><div th:utext="${singlePage.content.content}"></div></article></main><footer>Powered by Halo · Shop Starter</footer><halo:footer /></body>
+</html>
