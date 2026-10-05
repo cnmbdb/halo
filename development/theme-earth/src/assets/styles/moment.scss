@@ -1,0 +1,8 @@
+.moment-content {
+  .tag {
+    &::before {
+      content: "#";
+    }
+    @apply rounded bg-gray-100 px-1 py-0.5 text-sm text-gray-900 hover:bg-gray-200 dark:bg-neutral-600 dark:text-neutral-50 dark:hover:bg-neutral-700 dark:hover:text-neutral-100;
+  }
+}

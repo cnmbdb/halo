@@ -1,0 +1,64 @@
+<include src="layout.html">
+  <template name="head">
+    <script type="module" src="/assets/commerce.ts"></script>
+    <title th:text="|${product.title} - ${site.title}|"></title>
+  </template>
+  <main class="mx-auto mt-6 w-full max-w-7xl space-y-8 px-4 lg:px-6" th:with="detail=${catalogPresentation.settings(theme.config.get('commerce_detail'))}" th:classappend="${detail?.get('sticky_purchase') != false ? 'pb-24 sm:pb-8' : ''}">
+    <section class="grid gap-8" th:classappend="${detail?.get('gallery_layout') == 'top' ? '' : 'lg:grid-cols-2'}">
+      <div th:if="${not #lists.isEmpty(product.images)}" data-product-gallery class="space-y-4">
+        <div class="aspect-square overflow-hidden rounded-xl bg-gray-100 dark:bg-black sm:aspect-[4/3]">
+          <img th:each="image,iterStat : ${product.images}" data-gallery-image th:src="${image}" th:alt="|${product.title} - 图片 ${iterStat.count}|" th:classappend="${iterStat.index == 0 ? '' : 'hidden'}" class="h-full w-full object-contain" />
+        </div>
+        <div th:if="${#lists.size(product.images) > 1}" role="group" aria-label="商品图片" class="flex gap-3 overflow-x-auto py-1">
+          <button th:each="image,iterStat : ${product.images}" type="button" data-gallery-thumbnail th:attr="aria-label=|查看第 ${iterStat.count} 张图片|, aria-pressed=${iterStat.index == 0}" th:classappend="${iterStat.index == 0 ? 'border-blue-600' : 'border-transparent'}" class="size-16 shrink-0 overflow-hidden rounded-lg border-2 bg-gray-100 dark:bg-black">
+            <img th:src="${image}" th:alt="''" class="h-full w-full object-cover" />
+          </button>
+        </div>
+      </div>
+      <div th:if="${#lists.isEmpty(product.images)}" role="img" aria-label="暂无商品图片" class="flex aspect-square items-center justify-center rounded-xl bg-gray-100 text-gray-400 dark:bg-black">暂无商品图片</div>
+      <div id="purchase-options" data-purchase-options class="scroll-mt-24 space-y-6 rounded-xl bg-white p-6 dark:bg-neutral-950" th:classappend="${detail?.get('sticky_purchase') != false ? 'lg:sticky lg:top-24 lg:self-start' : ''}">
+        <h1 class="text-3xl font-semibold text-gray-900 dark:text-neutral-100" th:text="${product.title}"></h1>
+        <span th:if="${detail?.get('show_product_type') != false and product.type.name() == 'PHYSICAL'}" class="text-gray-500">实物配送</span>
+        <form method="get" action="/shop/checkout" th:each="sku : ${product.skus}" class="rounded-lg border border-gray-200 p-4 dark:border-neutral-700">
+          <h2 class="font-medium dark:text-neutral-100" th:text="${sku.title}"></h2>
+          <p class="mt-2 text-2xl font-semibold text-blue-600" th:text="|¥${#numbers.formatDecimal(sku.priceMinor / 100.0, 1, 2)}|"></p>
+          <p th:if="${detail?.get('show_stock') != false}" class="mt-2 text-sm text-gray-500" th:text="|库存 ${sku.stock}|"></p>
+          <input type="hidden" name="productTitle" th:value="${product.title}" />
+          <input type="hidden" name="skuTitle" th:value="${sku.title}" />
+          <input type="hidden" name="product" th:value="${product.name}" />
+          <input type="hidden" name="sku" th:value="${sku.id}" />
+          <label class="mt-3 block text-sm text-gray-500">数量
+            <input name="quantity" type="number" min="1" th:max="${sku.stock > 10000 ? 10000 : sku.stock}" value="1" required class="ml-2 w-24 rounded border border-gray-300 px-3 py-2 dark:bg-neutral-950" />
+          </label>
+          <button type="submit" th:disabled="${sku.stock == 0}" class="mt-4 w-full rounded-lg bg-blue-600 px-6 py-3 font-medium text-white disabled:opacity-50" th:text="${sku.stock == 0 ? '暂时缺货' : (detail?.get('purchase_label') ?: '立即购买')}"></button>
+          <button type="button" data-add-to-cart th:disabled="${sku.stock == 0}" class="mt-3 w-full rounded-lg border border-blue-600 px-6 py-3 text-blue-600 disabled:opacity-50">加入购物车</button>
+          <p data-cart-message role="status" class="mt-2 text-sm text-gray-500"></p>
+        </form>
+      </div>
+    </section>
+    <section th:if="${detail?.get('show_description') != false}" class="rounded-xl bg-white p-6 dark:bg-neutral-950">
+      <h2 class="mb-4 text-xl font-semibold dark:text-neutral-100">商品说明</h2>
+      <div class="prose max-w-none dark:prose-invert" th:utext="${descriptionHtml}"></div>
+    </section>
+    <section th:if="${detail?.get('show_after_sales') != false}" class="rounded-xl bg-white p-6 dark:bg-neutral-950">
+      <h2 class="mb-4 text-xl font-semibold dark:text-neutral-100">售后说明</h2>
+      <p class="whitespace-pre-wrap text-gray-600 dark:text-neutral-300" th:text="${detail?.get('after_sales') ?: ''}"></p>
+    </section>
+    <section th:if="${detail?.get('show_related') != false}" class="space-y-5">
+      <h2 class="text-xl font-semibold dark:text-neutral-100">相关推荐</h2>
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <a th:each="item : ${catalogPresentation.related(products, product, detail?.get('related_limit'))}" th:href="@{/shop/products/{slug}(slug=${item.slug})}" class="rounded-xl bg-white p-5 dark:bg-neutral-950">
+          <img th:if="${not #lists.isEmpty(item.images)}" th:src="${item.images[0]}" th:alt="${item.title}" class="mb-4 aspect-square w-full rounded-lg object-cover" />
+          <h3 class="font-medium dark:text-neutral-100" th:text="${item.title}"></h3>
+          <p class="mt-2 text-blue-600" th:text="|¥${#numbers.formatDecimal(item.skus[0].priceMinor / 100.0, 1, 2)}|"></p>
+        </a>
+      </div>
+    </section>
+    <div th:if="${detail?.get('sticky_purchase') != false}" data-mobile-purchase-bar class="fixed inset-x-0 bottom-0 z-50 border-t border-gray-200 bg-white/95 p-3 shadow-lg backdrop-blur dark:border-neutral-700 dark:bg-black/95 lg:hidden">
+      <div class="mx-auto flex max-w-7xl items-center justify-between gap-4">
+        <span class="text-sm font-medium text-gray-700 dark:text-neutral-200">购买选项</span>
+        <button type="button" data-scroll-purchase class="rounded-lg bg-blue-600 px-5 py-3 font-medium text-white">选择规格</button>
+      </div>
+    </div>
+  </main>
+</include>

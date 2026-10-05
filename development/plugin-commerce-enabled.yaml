@@ -1,0 +1,14 @@
+apiVersion: plugin.halo.run/v1alpha1
+kind: Plugin
+metadata:
+  name: commerce
+spec:
+  enabled: true
+  requires: ">=2.26.0"
+  author:
+    name: cnmbdb
+  displayName: 商城
+  description: 2333 Store 配套商城插件，提供商品、订单、库存、实物物流、数字交付和易支付。
+  version: 0.1.0-SNAPSHOT
+  license:
+    - name: GPL-3.0

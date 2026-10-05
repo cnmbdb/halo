@@ -1,0 +1,82 @@
+<include src="layout.html">
+  <template name="head">
+    <style>
+      .store-hero { display:grid; grid-template-columns:minmax(0,var(--left)) minmax(0,var(--right)); gap:var(--hero-gap); height:var(--hero-height); }
+      .store-hero-main { position:relative; min-width:0; min-height:0; }
+      .store-hero-side { display:grid; grid-template-rows:minmax(0,var(--top)) minmax(0,var(--bottom)); gap:var(--hero-gap); min-height:0; }
+      .store-hero-tile { display:flex; width:100%; height:100%; overflow:hidden; border-radius:8px; background:#e2e8f0; }
+      .store-hero-tile img { width:100%; height:100%; object-fit:var(--image-fit); }
+      .store-hero-placeholder { display:flex; align-items:center; justify-content:center; width:100%; height:100%; padding:20px; color:#64748b; text-align:center; }
+      .store-hero-dots { position:absolute; right:20px; top:20px; display:flex; gap:8px; }
+      .store-hero-dots button { width:24px; height:6px; border:0; border-radius:3px; background:#fff; opacity:.5; cursor:pointer; }
+      .store-hero-dots button.is-active { opacity:1; }
+      @media (max-width:640px) { .store-hero { height:auto; grid-template-columns:1fr; } .store-hero-main { aspect-ratio:var(--mobile-ratio); } .store-hero-side { grid-template-columns:1fr 1fr; grid-template-rows:auto; } .store-hero-side .store-hero-tile { aspect-ratio:4 / 3; } }
+    </style>
+    <title th:text="|商城 - ${site.title}|"></title>
+  </template>
+  <main class="mx-auto mt-6 w-full max-w-7xl space-y-10 px-4 lg:px-6" th:with="home=${catalogPresentation.settings(theme.config.get('commerce_home'))}">
+    <th:block th:each="module : ${catalogPresentation.modules(home)}" th:if="${module['enabled']}">
+      <section class="space-y-5" th:switch="${module['type']}">
+        <h2 th:if="${module['type'] != 'banner' and module['type'] != 'categories' and module['type'] != 'products' and not #strings.isEmpty(module['title'])}" class="text-2xl font-semibold text-gray-900 dark:text-neutral-100" th:text="${module['title']}"></h2>
+        <p th:if="${module['type'] != 'banner' and not #strings.isEmpty(module['description'])}" class="text-gray-600 dark:text-neutral-300" th:text="${module['description']}"></p>
+        <div th:case="banner" class="store-hero"
+          th:style="|--left:${module['left_weight'] ?: 2}fr;--right:${module['right_weight'] ?: 1}fr;--hero-height:${module['height'] ?: 420}px;--hero-gap:${module['gap'] ?: 16}px;--top:${module['top_weight'] ?: 1}fr;--bottom:${module['bottom_weight'] ?: 1}fr;--image-fit:${module['fit'] == 'contain' ? 'contain' : 'cover'};--mobile-ratio:${module['mobile_ratio'] ?: '16 / 9'}|"
+          x-data="{ active: 0, count: 0, timer: null, init() { this.count = this.$el.querySelectorAll('[data-slide]').length; const seconds = Number(this.$el.dataset.interval); if (this.count > 1 &amp;&amp; seconds > 0) this.timer = setInterval(() => { if (!this.$el.matches(':hover') &amp;&amp; !this.$el.contains(document.activeElement)) this.active = (this.active + 1) % this.count }, seconds * 1000) }, destroy() { clearInterval(this.timer) } }"
+          th:data-interval="${module['interval'] ?: 0}">
+          <div class="store-hero-main">
+            <a th:each="slide, status : ${module['slides']}" data-slide
+              th:x-show="|active === ${status.index}|" th:style="${status.index > 0 ? 'display:none' : ''}"
+              th:href="${#strings.isEmpty(slide['link']) ? null : slide['link']}"
+              th:target="${module['new_tab'] == true ? '_blank' : null}" rel="noopener noreferrer"
+              class="store-hero-tile">
+              <img th:if="${not #strings.isEmpty(slide['image'])}" th:src="${slide['image']}" th:alt="${slide['title'] ?: ''}" />
+              <span th:if="${#strings.isEmpty(slide['image'])}" class="store-hero-placeholder">主展示图</span>
+            </a>
+            <div th:if="${#lists.isEmpty(module['slides'])}" class="store-hero-tile store-hero-placeholder">主展示图</div>
+            <div th:if="${#lists.size(module['slides']) > 1}" class="store-hero-dots" aria-label="幻灯片切换">
+              <button th:each="slide, status : ${module['slides']}" type="button"
+                th:aria-label="|切换到第 ${status.count} 张幻灯片|" th:x-on:click="|active = ${status.index}|"
+                th:x-bind:aria-pressed="|active === ${status.index}|" th:x-bind:class="|{ 'is-active': active === ${status.index} }|"></button>
+            </div>
+          </div>
+          <div class="store-hero-side">
+            <a th:each="side : ${ {'top', 'bottom'} }" class="store-hero-tile"
+              th:href="${#strings.isEmpty(module[side + '_link']) ? null : module[side + '_link']}"
+              th:target="${module['new_tab'] == true ? '_blank' : null}" rel="noopener noreferrer">
+              <img th:if="${not #strings.isEmpty(module[side + '_image'])}" th:src="${module[side + '_image']}" th:alt="${module[side + '_title'] ?: ''}" />
+              <span th:if="${#strings.isEmpty(module[side + '_image'])}" class="store-hero-placeholder" th:text="${side == 'top' ? '上方展示图' : '下方展示图'}"></span>
+            </a>
+          </div>
+        </div>
+        <div th:case="categories" class="flex flex-wrap gap-3">
+          <a th:each="category : ${productCategories}" th:href="@{/shop(category=${category.metadata.name})}" class="store-category" style="backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px)"
+            th:with="icons=${module['category_images']}, matches=${icons == null ? null : icons.?[#this['category'] == #vars.category.metadata.name]}, categoryImage=${category.metadata.annotations?.get('commerce.halo.run/category-image') ?: (matches != null and not #lists.isEmpty(matches) ? matches[0]['image'] : null)}">
+            <img th:if="${not #strings.isEmpty(categoryImage)}"
+              th:src="${categoryImage}" alt="" loading="lazy" class="store-category-image" />
+            <span th:text="${category.spec.title}"></span>
+          </a>
+        </div>
+        <a th:if="${not #strings.isEmpty(module['image'])}" th:target="${module['new_tab'] == true ? '_blank' : null}" rel="noopener noreferrer" th:case="promotion" th:href="${module['link'] ?: '/shop'}" class="block">
+          <img th:if="${module['image'] != null}" th:src="${module['image']}" th:alt="${module['title']}" class="w-full rounded-xl" />
+        </a>
+        <div th:case="*" class="grid grid-cols-1 gap-6 sm:grid-cols-2" th:classappend="${home?.get('columns') == '4' ? 'lg:grid-cols-4' : (home?.get('columns') == '2' ? '' : 'lg:grid-cols-3')}">
+          <th:block th:each="item : ${catalogPresentation.select(products, module)}">
+            <article class="store-product-card overflow-hidden rounded-xl bg-white shadow-sm dark:bg-neutral-950">
+              <a class="store-product-link" th:href="@{/shop/products/{slug}(slug=${item.slug})}">
+                <div class="store-product-cover">
+                  <img th:if="${not #lists.isEmpty(item.images)}" th:src="${item.images[0]}" th:alt="${item.title}" loading="lazy" />
+                  <span th:if="${#lists.isEmpty(item.images)}" class="store-product-placeholder" aria-label="暂无商品图片">暂无图片</span>
+                </div>
+                <div class="store-product-copy space-y-3">
+                  <h3 class="text-lg font-medium text-gray-900 dark:text-neutral-100" th:text="${item.title}"></h3>
+                  <p th:if="${not #lists.isEmpty(item.skus)}" class="text-xl font-semibold text-blue-600" th:text="|¥${#numbers.formatDecimal(item.skus[0].priceMinor / 100.0, 1, 2)}|"></p>
+                </div>
+              </a>
+            </article>
+          </th:block>
+        </div>
+      </section>
+    </th:block>
+    <p th:if="${#lists.isEmpty(products)}" class="rounded-xl bg-white p-12 text-center text-gray-500 dark:bg-neutral-950">暂无上架商品</p>
+  </main>
+</include>
