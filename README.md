@@ -2,6 +2,8 @@
 
 AOSTE 是一款用于 Halo 的网站主题，适合展示文章，也可以搭配随包提供的商城插件使用。首页内容可以在 Halo 后台按自己的需要调整，不必修改代码。
 
+在线体验：[https://halo-deve.txsw.top](https://halo-deve.txsw.top)
+
 ## 下载包里有什么
 
 下载 `AOSTE-1.18.0-with-commerce-plugin.zip` 后，请先在电脑上解压。里面有两个需要分别安装的文件：
@@ -34,6 +36,20 @@ AOSTE 是一款用于 Halo 的网站主题，适合展示文章，也可以搭�
 - **文章卡片列表**：展示 Halo 中的文章。文章布局和每页数量沿用 Halo 的文章相关设置。
 
 首页分类按钮负责筛选首页文章，不会把访客带离首页。
+
+## 页面预览
+
+**首页分类筛选与文章卡片**
+
+![AOSTE 首页分类筛选与文章卡片](./images/home-categories-and-articles.png)
+
+**商城商品与分类**
+
+![AOSTE 商城商品与分类](./images/shop-products-and-categories.png)
+
+**商城订单与支付方式**
+
+![AOSTE 商城订单与支付方式](./images/shop-orders-and-payment.png)
 
 ## 关于商城和支付
 
