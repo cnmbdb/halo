@@ -1,9 +1,0 @@
-<!doctype html>
-<html lang="zh-CN" xmlns:th="https://www.thymeleaf.org">
-<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>商城</title><link rel="stylesheet" th:href="@{/themes/theme-shop/assets/style.css}" /><script defer th:src="@{/themes/theme-shop/assets/shop.js}"></script></head>
-<body>
-  <header class="site-header"><a class="brand" th:href="@{/}" th:text="${site.title}">Halo Shop</a><nav><a th:href="@{/}">文章</a><a th:href="@{/shop}">商城</a></nav></header>
-  <main class="container"><div class="hero"><p class="eyebrow">THE SHOP</p><h1>挑选喜欢的商品</h1><p>订单提交后由店主人工确认，暂不支持在线付款。</p></div><div class="shop-layout"><section><h2>商品</h2><p id="shop-status" role="status">正在加载商品…</p><div id="products" class="cards"></div></section><aside class="cart"><h2>购物车</h2><div id="cart-items"></div><p class="total">合计：<strong id="cart-total">¥0.00</strong></p><form id="checkout-form"><label>收件人<input name="customerName" required maxlength="100" autocomplete="name" /></label><label>手机号<input name="phone" required maxlength="40" autocomplete="tel" /></label><label>收货地址<textarea name="address" required maxlength="500" autocomplete="street-address"></textarea></label><button class="button" type="submit">提交订单</button></form><p id="checkout-status" role="status"></p><p class="hint">提交订单需要登录 Halo 账号并拥有“商城下单”权限。</p></aside></div></main>
-  <footer>Powered by Halo · Shop Starter</footer><halo:footer />
-</body>
-</html>
