@@ -83,43 +83,43 @@ AOSTE 是一款用于 Halo 的网站主题，适合展示文章，也可以搭�
 
 <!-- aoste-release-source
 {
-  "tag_name": "aoste-v1.19.8",
-  "html_url": "https://github.com/cnmbdb/halo/releases/tag/aoste-v1.19.8",
+  "tag_name": "aoste-v1.19.9",
+  "html_url": "https://github.com/cnmbdb/halo/releases/tag/aoste-v1.19.9",
   "draft": false,
   "prerelease": false,
-  "body": "AOSTE 主题 1.19.8 · 商城插件 0.2.6\n\n修复 GitHub API 限流影响独立更新的问题：从公开仓库静态清单检查版本，通过固定的 Release 地址下载安装包。合并并发检查，缓存一分钟。主题封面已同步更新。插件列表支持 GitHub Releases 新版本提示，可点击「查看详情」或「立即更新」。立即更新进入确认流程，经大小与 SHA-256 校验后通过官方 Halo 接口升级。主题升级弹窗继续提供 AOSTE 独立更新入口，不修改 Halo 核心。\n\n「独立更新」页：在官方 Halo 后台检查、下载并升级主题和商城插件，更新来自 GitHub Releases，无需官方应用市场。\n安装包通过大小与 SHA-256 校验后才会提交升级；修复了 WebFlux 默认 256 KB 缓冲限制导致较大安装包下载失败的问题。支持版本比较、Halo 兼容检查、更新说明、配置导出和升级结果确认。\n保留插件 0.1.1 的历史卡密交付修复。\n\n首次安装或从旧版升级：下载完整安装包并解压，分别安装/升级其中的主题 ZIP 和插件 JAR，启用插件与主题。\n后续更新：主题 → 独立更新，插件 → Aoste主题插件 → 设置 → 独立更新，或 /console/aoste/updates。\n最低运行环境：官方 Halo 2.26。主题配置、商品与订单数据会保留；主题自定义文件会被覆盖，插件升级期间商城服务会短暂重启。\n\n独立文件：theme-aoset-1.19.8.zip 为可直接安装的主题；plugin-commerce-0.2.6.jar 为商城插件。\nAOSTE-1.19.8-with-commerce-plugin.zip 是组合包，先解压再安装；GitHub 自动生成的 Source code 压缩包不是安装包。\n\n```aoste-update\n{\n  \"schemaVersion\": 1,\n  \"theme\": {\n    \"id\": \"theme-aoset\",\n    \"version\": \"1.19.8\",\n    \"asset\": \"theme-aoset-1.19.8.zip\",\n    \"requires\": \">=2.26.0\",\n    \"sha256\": \"ceb9e5cfff907e9b828648d7b0c797688c0f1eca0e169ce0bc81f539940ad52e\"\n  },\n  \"plugin\": {\n    \"id\": \"commerce\",\n    \"version\": \"0.2.6\",\n    \"asset\": \"plugin-commerce-0.2.6.jar\",\n    \"requires\": \">=2.26.0\",\n    \"sha256\": \"4388ba151119fe20788527b17da5205471453fdaafd78d2dc596031b4def02f4\"\n  }\n}\n```\n",
+  "body": "AOSTE 主题 1.19.9 · 商城插件 0.2.6\n\n修复 GitHub API 限流影响独立更新的问题：从公开仓库静态清单检查版本，通过固定的 Release 地址下载安装包。合并并发检查，缓存一分钟。修复首页幻灯片与自定义卡片仍引用旧 screenshot.png 时的图片加载问题，兼容已有配置并更新默认地址。插件列表支持 GitHub Releases 新版本提示，可点击「查看详情」或「立即更新」。立即更新进入确认流程，经大小与 SHA-256 校验后通过官方 Halo 接口升级。主题升级弹窗继续提供 AOSTE 独立更新入口，不修改 Halo 核心。\n\n「独立更新」页：在官方 Halo 后台检查、下载并升级主题和商城插件，更新来自 GitHub Releases，无需官方应用市场。\n安装包通过大小与 SHA-256 校验后才会提交升级；修复了 WebFlux 默认 256 KB 缓冲限制导致较大安装包下载失败的问题。支持版本比较、Halo 兼容检查、更新说明、配置导出和升级结果确认。\n保留插件 0.1.1 的历史卡密交付修复。\n\n首次安装或从旧版升级：下载完整安装包并解压，分别安装/升级其中的主题 ZIP 和插件 JAR，启用插件与主题。\n后续更新：主题 → 独立更新，插件 → Aoste主题插件 → 设置 → 独立更新，或 /console/aoste/updates。\n最低运行环境：官方 Halo 2.26。主题配置、商品与订单数据会保留；主题自定义文件会被覆盖，插件升级期间商城服务会短暂重启。\n\n独立文件：theme-aoset-1.19.9.zip 为可直接安装的主题；plugin-commerce-0.2.6.jar 为商城插件。\nAOSTE-1.19.9-with-commerce-plugin.zip 是组合包，先解压再安装；GitHub 自动生成的 Source code 压缩包不是安装包。\n\n```aoste-update\n{\n  \"schemaVersion\": 1,\n  \"theme\": {\n    \"id\": \"theme-aoset\",\n    \"version\": \"1.19.9\",\n    \"asset\": \"theme-aoset-1.19.9.zip\",\n    \"requires\": \">=2.26.0\",\n    \"sha256\": \"7b91e62df3a2d8d1c32beeed810161dfa1c7a32e7e03666a7e7d20c072890f89\"\n  },\n  \"plugin\": {\n    \"id\": \"commerce\",\n    \"version\": \"0.2.6\",\n    \"asset\": \"plugin-commerce-0.2.6.jar\",\n    \"requires\": \">=2.26.0\",\n    \"sha256\": \"4388ba151119fe20788527b17da5205471453fdaafd78d2dc596031b4def02f4\"\n  }\n}\n```\n",
   "assets": [
     {
-      "id": 636544921,
-      "name": "AOSTE-1.19.8-with-commerce-plugin.zip",
-      "size": 7649381,
+      "id": 637707006,
+      "name": "AOSTE-1.19.9-with-commerce-plugin.zip",
+      "size": 7649566,
       "state": "uploaded",
-      "browser_download_url": "https://github.com/cnmbdb/halo/releases/download/aoste-v1.19.8/AOSTE-1.19.8-with-commerce-plugin.zip",
-      "digest": "sha256:4ab6592359e3fe7f9c0f1985acdef61c0082c1f0711c43276408bf6d4d15b7c9"
+      "browser_download_url": "https://github.com/cnmbdb/halo/releases/download/aoste-v1.19.9/AOSTE-1.19.9-with-commerce-plugin.zip",
+      "digest": "sha256:66827aebc95b66a7b19a939b954ae4a7d1fc6022c764dbf95bdda8537e4b9d66"
     },
     {
-      "id": 636544922,
+      "id": 637707007,
       "name": "plugin-commerce-0.2.6.jar",
       "size": 1907776,
       "state": "uploaded",
-      "browser_download_url": "https://github.com/cnmbdb/halo/releases/download/aoste-v1.19.8/plugin-commerce-0.2.6.jar",
+      "browser_download_url": "https://github.com/cnmbdb/halo/releases/download/aoste-v1.19.9/plugin-commerce-0.2.6.jar",
       "digest": "sha256:4388ba151119fe20788527b17da5205471453fdaafd78d2dc596031b4def02f4"
     },
     {
-      "id": 636544924,
-      "name": "theme-aoset-1.19.8.zip",
-      "size": 4782704,
+      "id": 637707009,
+      "name": "theme-aoset-1.19.9.zip",
+      "size": 4782922,
       "state": "uploaded",
-      "browser_download_url": "https://github.com/cnmbdb/halo/releases/download/aoste-v1.19.8/theme-aoset-1.19.8.zip",
-      "digest": "sha256:ceb9e5cfff907e9b828648d7b0c797688c0f1eca0e169ce0bc81f539940ad52e"
+      "browser_download_url": "https://github.com/cnmbdb/halo/releases/download/aoste-v1.19.9/theme-aoset-1.19.9.zip",
+      "digest": "sha256:7b91e62df3a2d8d1c32beeed810161dfa1c7a32e7e03666a7e7d20c072890f89"
     },
     {
-      "id": 636544923,
+      "id": 637707005,
       "name": "updates.json",
       "size": 457,
       "state": "uploaded",
-      "browser_download_url": "https://github.com/cnmbdb/halo/releases/download/aoste-v1.19.8/updates.json",
-      "digest": "sha256:64b78ad346d53aa457919bfb0f332105e7ea2872cf695cd97265c0abf5c6b680"
+      "browser_download_url": "https://github.com/cnmbdb/halo/releases/download/aoste-v1.19.9/updates.json",
+      "digest": "sha256:95c63b7102d8c6eb8955a4243895a602ab2f1f0ced99bdfef32d903f2fd438cc"
     }
   ]
 }
