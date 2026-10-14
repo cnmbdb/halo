@@ -1,0 +1,67 @@
+<th:block th:with="slides=${home.slides == null ? {} : home.slides.?[image != null and image != '']}">
+  <link rel="stylesheet" href="/themes/theme-aoset/assets/slides-height.css" />
+  <section
+    id="home-slides"
+    class="home-slides"
+    th:if="${home.slides_enabled != false and not #lists.isEmpty(slides)}"
+    th:classappend="${home.slides_height == 'compact' ? 'is-compact' : (home.slides_height == 'full' ? 'is-full' : (home.slides_height == 'auto' ? 'is-auto' : ''))}"
+    x-data="homeCarousel"
+    th:attr="data-autoplay=${home.slides_autoplay != false},data-interval=${home.slides_interval ?: 6}"
+    @keydown.left.prevent="go(active - 1)"
+    @keydown.right.prevent="go(active + 1)"
+    @mouseenter="hovered = true"
+    @mouseleave="hovered = false"
+    @focusin="focused = true"
+    @focusout="focused = $el.contains($event.relatedTarget)"
+    role="region"
+    aria-roledescription="轮播"
+    aria-label="首页幻灯片"
+    tabindex="0"
+  >
+    <div class="home-slides-track" :aria-live="running ? 'off' : 'polite'" aria-atomic="false">
+      <article
+        th:each="slide,stat : ${slides}"
+        class="home-slide"
+        data-slide
+        th:classappend="${stat.index % 2 == 1 ? 'home-slide-alternate' : ''}"
+        :style="{visibility: active === Number($el.dataset.index) ? 'visible' : 'hidden'}"
+        :inert="active !== Number($el.dataset.index)"
+        :aria-hidden="active !== Number($el.dataset.index)"
+        th:data-index="${stat.index}"
+        th:aria-hidden="${not stat.first}"
+        th:attr="aria-label=|第 ${stat.count} 张，共 ${stat.size} 张|"
+        th:style="${stat.index != 0 ? 'visibility: hidden;' : ''}"
+        role="group"
+        aria-roledescription="幻灯片"
+      >
+        <img
+          class="home-slide-image"
+          th:src="${slide.image == '/themes/theme-aoset/screenshot.png' or #strings.startsWith(slide.image, '/themes/theme-aoset/screenshot.png?') ? #strings.replace(slide.image, '/themes/theme-aoset/screenshot.png', '/themes/theme-aoset/screenshot.jpeg') : slide.image}"
+          th:alt="${slide.title ?: '首页幻灯片'}"
+          decoding="async"
+          th:loading="${stat.first ? 'eager' : 'lazy'}"
+          th:attr="fetchpriority=${stat.first ? 'high' : 'auto'}"
+        />
+        <a
+          class="home-slide-image-link"
+          th:if="${not #strings.isEmpty(slide.link) and (#strings.startsWith(slide.link, 'https://') or #strings.startsWith(slide.link, 'http://') or (#strings.startsWith(slide.link, '/') and not #strings.startsWith(slide.link, '//')))}"
+          th:href="${slide.link}"
+          th:aria-label="${slide.title ?: '查看幻灯片链接'}"
+        ></a>
+      </article>
+    </div>
+    <div class="home-carousel-controls" th:if="${#lists.size(slides) > 1}" x-cloak>
+      <div class="home-carousel-dots" aria-label="选择幻灯片">
+        <button
+          type="button"
+          th:each="slide,stat : ${slides}"
+          @click="go(Number($el.dataset.index))"
+          :aria-pressed="active === Number($el.dataset.index)"
+          th:attr="aria-label=|转到第 ${stat.count} 张幻灯片|"
+          :class="{'is-active': active === Number($el.dataset.index)}"
+          th:data-index="${stat.index}"
+        ></button>
+      </div>
+    </div>
+  </section>
+</th:block>

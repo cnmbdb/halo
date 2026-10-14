@@ -1,0 +1,1133 @@
+apiVersion: v1alpha1
+kind: Setting
+metadata:
+  name: theme-aoset-setting
+spec:
+  forms:
+    - group: layout
+      label: 首页布局
+      formSchema:
+        - $el: details
+          attrs:
+            open: false
+            style: "margin: 20px 0; border: 1px solid #e2e8f0; border-radius: 16px; background: #fff; box-shadow: 0 2px 8px rgba(15,23,42,.03);"
+          children:
+            - $el: summary
+              attrs:
+                style: "cursor: pointer; padding: 22px 24px; color: #0f172a;"
+              children:
+                - $el: span
+                  attrs:
+                    style: "font-size: 17px; font-weight: 650;"
+                  children: 幻灯片区块
+                - $el: p
+                  attrs:
+                    style: "margin: 8px 0 0; font-size: 13px; line-height: 1.7; color: #64748b; font-weight: 400;"
+                  children: 管理轮播内容、图片与跳转，设置自动播放和展示高度。
+            - $el: div
+              attrs:
+                style: "padding: 4px 24px 24px; border-top: 1px solid #f1f5f9;"
+              children:
+                - $formkit: checkbox
+                  name: slides_enabled
+                  label: 显示幻灯片区块
+                  value: true
+                - $formkit: array
+                  name: slides
+                  label: 幻灯片内容
+                  help: 仅展示图片；无图片的条目不展示。可拖动排序，图片可设置点击跳转。
+                  value:
+                    - title: 首页图片
+                      image: /themes/theme-aoset/screenshot.jpeg
+                      link: /archives
+                  itemLabels:
+                    - type: text
+                      label: $value.title
+                    - type: text
+                      label: $value.link
+                  children:
+                    - $formkit: text
+                      name: title
+                      label: 管理名称（前台不显示）
+                    - $formkit: attachment
+                      name: image
+                      label: 图片
+                      validation: required
+                    - $formkit: text
+                      name: link
+                      label: 跳转链接
+                      help: 支持站内路径或 http(s) 链接。
+                - $formkit: checkbox
+                  name: slides_autoplay
+                  label: 自动轮播
+                  value: true
+                  help: 鼠标悬停、键盘焦点进入、页面隐藏时暂停；跟随系统减少动态效果设置。
+                - $formkit: number
+                  name: slides_interval
+                  label: 自动轮播间隔（秒）
+                  value: 6
+                  min: 3
+                  max: 30
+                  validation: required|number|min:3|max:30
+                - $formkit: select
+                  name: slides_height
+                  label: 幻灯片高度
+                  help: 全高度占满视口剩余高度；自适应按当前图片比例完整展示，不裁切。
+                  value: comfortable
+                  options:
+                    - label: 紧凑
+                      value: compact
+                    - label: 舒展
+                      value: comfortable
+                    - label: 全高度
+                      value: full
+                    - label: 自适应
+                      value: auto
+        - $el: details
+          attrs:
+            open: false
+            style: "margin: 20px 0; border: 1px solid #e2e8f0; border-radius: 16px; background: #fff; box-shadow: 0 2px 8px rgba(15,23,42,.03);"
+          children:
+            - $el: summary
+              attrs:
+                style: "cursor: pointer; padding: 22px 24px; color: #0f172a;"
+              children:
+                - $el: span
+                  attrs:
+                    style: "font-size: 17px; font-weight: 650;"
+                  children: 自定义卡片区块
+                - $el: p
+                  attrs:
+                    style: "margin: 8px 0 0; font-size: 13px; line-height: 1.7; color: #64748b; font-weight: 400;"
+                  children: 添加图片、GIF 或视频，设置尺寸、展示数量和跳转链接。
+            - $el: div
+              attrs:
+                style: "padding: 4px 24px 24px; border-top: 1px solid #f1f5f9;"
+              children:
+                - $formkit: checkbox
+                  name: cards_enabled
+                  label: 显示自定义卡片区块
+                  value: true
+                - $formkit: select
+                  name: cards_columns
+                  label: 卡片列数
+                  value: "3"
+                  options:
+                    - label: 两列
+                      value: "2"
+                    - label: 三列
+                      value: "3"
+                    - label: 四列
+                      value: "4"
+                - $formkit: number
+                  name: cards_limit
+                  label: 展示数量
+                  value: 0
+                  min: 0
+                  max: 100
+                  validation: "number|min:0|max:100"
+                  help: 0 表示展示全部；按列表顺序展示，可添加、删除或拖动排序。
+                - $formkit: array
+                  name: cards
+                  label: 自定义卡片
+                  help: 支持图片、GIF 和视频；每张卡片独立设置尺寸和链接。
+                  value:
+                    - title: 文章归档
+                      description: 沿着时间线，回看每一次记录。
+                      link: /archives
+                      badge: ARCHIVE
+                    - title: 分类浏览
+                      description: 找到属于你的兴趣，探索更多可能。
+                      link: /categories
+                      badge: DISCOVER
+                    - title: 标签索引
+                      description: 用一个关键词，连接新的灵感。
+                      link: /tags
+                      badge: INSPIRATION
+                  itemLabels:
+                    - type: text
+                      label: $value.title
+                  children:
+                    - $formkit: text
+                      name: title
+                      label: 管理名称（前台不显示）
+                      validation: required
+                    - $formkit: select
+                      name: media_type
+                      label: 媒体类型
+                      value: image
+                      options:
+                        - label: 图片 / GIF
+                          value: image
+                        - label: 视频
+                          value: video
+                    - $formkit: attachment
+                      name: image
+                      label: 图片 / GIF
+                      help: GIF 使用原始文件地址以保留动画。
+                    - $formkit: attachment
+                      name: video
+                      label: 视频文件
+                      help: 推荐浏览器支持的 MP4 或 WebM 文件。
+                    - $formkit: attachment
+                      name: poster
+                      label: 视频封面
+                    - $formkit: number
+                      name: width
+                      label: 卡片宽度（px）
+                      value: 0
+                      min: 0
+                      max: 2560
+                      validation: "number|min:0|max:2560"
+                      help: 0 自动填满当前列；小屏幕自动适配。
+                    - $formkit: number
+                      name: height
+                      label: 媒体高度（px）
+                      value: 240
+                      min: 80
+                      max: 1440
+                      validation: "number|min:80|max:1440"
+                    - $formkit: select
+                      name: fit
+                      label: 媒体填充方式
+                      value: cover
+                      options:
+                        - label: 裁剪填满
+                          value: cover
+                        - label: 完整显示
+                          value: contain
+                    - $formkit: checkbox
+                      name: controls
+                      label: 显示视频播放控件
+                      value: true
+                      help: 开启后可操作播放器，通过右上角图标跳转。
+                    - $formkit: checkbox
+                      name: autoplay
+                      label: 视频静音自动播放并循环
+                      value: false
+                    - $formkit: text
+                      name: link
+                      label: 跳转链接
+                    - $formkit: checkbox
+                      name: new_tab
+                      label: 在新窗口打开
+                      value: false
+        - $el: details
+          attrs:
+            open: false
+            style: "margin: 20px 0; border: 1px solid #e2e8f0; border-radius: 16px; background: #fff; box-shadow: 0 2px 8px rgba(15,23,42,.03);"
+          children:
+            - $el: summary
+              attrs:
+                style: "cursor: pointer; padding: 22px 24px; color: #0f172a;"
+              children:
+                - $el: span
+                  attrs:
+                    style: "font-size: 17px; font-weight: 650;"
+                  children: 文章分类区块
+                - $el: p
+                  attrs:
+                    style: "margin: 8px 0 0; font-size: 13px; line-height: 1.7; color: #64748b; font-weight: 400;"
+                  children: 选择并排序文章分类，设置毛玻璃胶囊按钮的左侧图片。
+            - $el: div
+              attrs:
+                style: "padding: 4px 24px 24px; border-top: 1px solid #f1f5f9;"
+              children:
+                - $formkit: checkbox
+                  name: categories_enabled
+                  label: 显示文章分类区块
+                  value: true
+                - $formkit: array
+                  name: category_buttons
+                  label: 分类胶囊按钮
+                  help: 添加按钮后，首页按此列表顺序展示；每项可选择“全部文章”或指定分类，独立设置图片并拖动排序。列表为空时使用下方自动展示设置。
+                  value:
+                    - name: 全部
+                      type: all
+                      title: 全部
+                  itemLabels:
+                    - type: text
+                      label: $value.name
+                    - type: text
+                      label: $value.title
+                  children:
+                    - $formkit: text
+                      name: name
+                      label: 管理名称（前台不显示）
+                      value: 分类按钮
+                      validation: required
+                    - $formkit: select
+                      name: type
+                      label: 按钮内容
+                      value: category
+                      options:
+                        - label: 指定分类
+                          value: category
+                        - label: 全部文章
+                          value: all
+                    - $formkit: categorySelect
+                      name: category
+                      label: 绑定分类
+                      help: 按钮内容选择“指定分类”时选择；“全部文章”无需绑定分类。
+                    - $formkit: attachment
+                      name: image
+                      label: 左侧图片
+                      help: 留空使用默认图案。
+                    - $formkit: text
+                      name: title
+                      label: 显示名称
+                      help: 留空使用绑定分类的名称；点击后筛选首页下方文章列表。
+                - $formkit: categorySelect
+                  name: category_names
+                  label: 自动展示分类
+                  multiple: true
+                  value: []
+                  help: 留空展示全部分类；按选择顺序展示，移除后重新选择可调整顺序。
+                - $formkit: attachment
+                  name: categories_image
+                  label: 自动展示共用图片
+                  help: 留空使用默认图案；显示在胶囊按钮左侧。
+        - $el: details
+          attrs:
+            open: false
+            style: "margin: 20px 0; border: 1px solid #e2e8f0; border-radius: 16px; background: #fff; box-shadow: 0 2px 8px rgba(15,23,42,.03);"
+          children:
+            - $el: summary
+              attrs:
+                style: "cursor: pointer; padding: 22px 24px; color: #0f172a;"
+              children:
+                - $el: span
+                  attrs:
+                    style: "font-size: 17px; font-weight: 650;"
+                  children: 文章卡片列表
+                - $el: p
+                  attrs:
+                    style: "margin: 8px 0 0; font-size: 13px; line-height: 1.7; color: #64748b; font-weight: 400;"
+                  children: 设置文章布局、展示字段和侧边栏，沿用站点文章分页。
+            - $el: div
+              attrs:
+                style: "padding: 4px 24px 24px; border-top: 1px solid #f1f5f9;"
+              children:
+                - $formkit: checkbox
+                  name: posts_enabled
+                  label: 显示文章卡片列表
+                  value: true
+                - $formkit: select
+                  name: post_list_layout
+                  label: 文章卡片布局
+                  value: grid_3
+                  options:
+                    - label: 网格（一行三列）
+                      value: grid_3
+                    - label: 网格（一行两列）
+                      value: grid_2
+                    - label: 横向列表
+                      value: single
+                  help: 首页每页文章数量沿用 Halo 的文章设置，分页展示全部文章。
+                - $formkit: checkbox
+                  name: posts_cover
+                  label: 显示文章封面
+                  value: true
+                - $formkit: checkbox
+                  name: posts_excerpt
+                  label: 显示文章摘要
+                  value: true
+                - $formkit: checkbox
+                  name: posts_author
+                  label: 显示作者
+                  value: true
+                - $formkit: checkbox
+                  name: posts_date
+                  label: 显示发布日期
+                  value: true
+                - $formkit: checkbox
+                  name: posts_sidebar
+                  label: 在文章列表右侧显示侧边栏
+                  value: false
+                  help: 侧边栏内容在「侧边栏」标签页配置，移动端显示在文章列表下方。
+        - $el: details
+          attrs:
+            style: "margin: 20px 0; border: 1px solid #e2e8f0; border-radius: 14px; background: #fff;"
+          children:
+            - $el: summary
+              attrs:
+                style: "cursor: pointer; padding: 18px 22px; font-size: 14px; font-weight: 600; color: #475569;"
+              children: 文章页面兼容设置
+            - $el: div
+              attrs:
+                style: "padding: 0 22px 22px;"
+              children:
+                - $formkit: checkbox
+                  name: content_header
+                  label: 显示文章页面顶部背景
+                  value: true
+
+    - group: global
+      label: 全局
+      formSchema:
+        - $formkit: select
+          name: logo_type
+          id: logo_type
+          label: 菜单栏 Logo 类型
+          value: image
+          options:
+            - label: 文字
+              value: text
+            - label: 图片
+              value: image
+        - $formkit: checkbox
+          name: show_scroll_button
+          label: 显示滚动到顶部按钮
+          value: true
+
+    - group: style
+      label: 样式
+      formSchema:
+        - $formkit: select
+          name: color_scheme
+          label: 默认配色
+          value: system
+          options:
+            - label: 跟随系统
+              value: system
+            - label: 深色
+              value: dark
+            - label: 浅色
+              value: light
+
+        - $formkit: checkbox
+          name: enable_change_color_scheme
+          label: 允许访客切换配色
+          value: true
+
+    - group: post
+      label: 文章
+      formSchema:
+        - $formkit: select
+          name: content_style
+          label: 内容样式
+          value: "github"
+          options:
+            - label: GitHub 风格
+              value: github
+            - label: Tailwind CSS Typography
+              value: tailwind
+        - $formkit: select
+          name: title_position
+          label: 标题位置
+          value: "content"
+          options:
+            - value: "content"
+              label: "正文中"
+            - value: "cover"
+              label: "封面中"
+        - $formkit: text
+          name: cover_height
+          label: 封面图高度
+          value: "24rem"
+        - $formkit: checkbox
+          name: show_upvote_button
+          label: 显示点赞按钮
+          value: true
+        - $formkit: checkbox
+          name: show_share_button
+          id: show_share_button
+          label: 显示分享按钮
+          value: true
+        - $formkit: select
+          if: $get(show_share_button).value
+          name: share_item_ids
+          key: share_item_ids
+          id: share_item_ids
+          multiple: true
+          sortable: true
+          label: 分享平台
+          value:
+            - wechat
+            - x
+            - telegram
+            - facebook
+            - qq
+            - qzone
+            - weibo
+            - douban
+            - native
+          options:
+            - label: 微信
+              value: wechat
+            - label: X
+              value: x
+            - label: Telegram
+              value: telegram
+            - label: Facebook
+              value: facebook
+            - label: QQ
+              value: qq
+            - label: QQ 空间
+              value: qzone
+            - label: 微博
+              value: weibo
+            - label: 豆瓣
+              value: douban
+            - label: 系统分享
+              value: native
+    - group: sidebar
+      label: 侧边栏
+      formSchema:
+        - $formkit: array
+          name: widgets
+          label: 小部件
+          value:
+            - value: popular-posts
+            - value: categories
+            - value: tags
+          itemLabels:
+            - type: "text"
+              label: "$value.value"
+          children:
+            - $formkit: select
+              name: value
+              id: value
+              key: value
+              label: 部件
+              options:
+                - label: 站点资料
+                  value: profile
+                - label: 热门文章
+                  value: popular-posts
+                - label: 文章分类
+                  value: categories
+                - label: 文章标签
+                  value: tags
+            - $formkit: group
+              if: "$value.value === profile"
+              name: options
+              key: profile-options
+              id: profile-options
+              label: 站点资料选项
+              children:
+                - $formkit: attachment
+                  name: logo
+                  label: 站点资料 Logo
+                - $formkit: array
+                  name: social_media
+                  label: 社交媒体
+                  value: []
+                  itemLabels:
+                    - type: "iconify"
+                      label: "$value.icon"
+                    - type: "text"
+                      label: "$value.name"
+                    - type: "text"
+                      label: "$value.url"
+                  children:
+                    - $formkit: iconify
+                      format: svg
+                      name: icon
+                      label: 图标
+                      validation: "required"
+                    - $formkit: text
+                      name: name
+                      label: 名称
+                    - $formkit: text
+                      name: url
+                      label: 链接
+                      validation: "required"
+                    - $formkit: select
+                      name: url_type
+                      label: 链接类型
+                      value: normal
+                      help: "如果选择了图片类型，那么在访客点击之后会使用弹框的形式加载"
+                      options:
+                        - label: 跳转链接
+                          value: normal
+                        - label: 图片
+                          value: image
+
+        - $formkit: group
+          name: profile
+          help: 已废弃，将在未来的版本移除，请使用上方的站点资料小部件中的配置代替
+          value:
+            logo:
+          children:
+            - $formkit: attachment
+              name: logo
+              label: 站点资料 Logo
+
+        - $formkit: array
+          name: social_media
+          label: 社交媒体
+          value: []
+          help: 已废弃，将在未来的版本移除，请使用上方的站点资料小部件中的配置代替
+          itemLabels:
+            - type: "text"
+              label: "$value.name"
+            - type: "text"
+              label: "$value.url"
+          children:
+            - $formkit: select
+              name: icon
+              label: 图标
+              options:
+                - label: 电子邮箱
+                  value: i-tabler-mail
+                - label: 微信
+                  value: i-simple-icons-wechat
+                - label: 腾讯 QQ
+                  value: i-simple-icons-tencentqq
+                - label: 新浪微博
+                  value: i-simple-icons-sinaweibo
+                - label: 知乎
+                  value: i-simple-icons-zhihu
+                - label: 豆瓣
+                  value: i-simple-icons-douban
+                - label: 哔哩哔哩
+                  value: i-simple-icons-bilibili
+                - label: 抖音 / TikTok
+                  value: i-simple-icons-tiktok
+                - label: Telegram
+                  value: i-simple-icons-telegram
+                - label: Facebook
+                  value: i-simple-icons-facebook
+                - label: Instagram
+                  value: i-simple-icons-instagram
+                - label: LinkedIn
+                  value: i-simple-icons-linkedin
+                - label: Twitter
+                  value: i-simple-icons-twitter
+                - label: Slack
+                  value: i-simple-icons-slack
+                - label: Discord
+                  value: i-simple-icons-discord
+                - label: YouTube
+                  value: i-simple-icons-youtube
+                - label: Steam
+                  value: i-simple-icons-steam
+                - label: GitHub
+                  value: i-simple-icons-github
+                - label: GitLab
+                  value: i-simple-icons-gitlab
+                - label: RSS
+                  value: i-simple-icons-rss
+            - $formkit: text
+              name: name
+              label: 名称
+            - $formkit: text
+              name: url
+              label: 链接
+              validation: "required"
+            - $formkit: select
+              name: url_type
+              label: 链接类型
+              value: normal
+              help: "如果选择了图片类型，那么在访客点击之后会使用弹框的形式加载"
+              options:
+                - label: 跳转链接
+                  value: normal
+                - label: 图片
+                  value: image
+
+    - group: footer
+      label: 页脚
+      formSchema:
+        - $formkit: select
+          name: style
+          id: style
+          key: style
+          label: 页脚风格
+          value: style_1
+          options:
+            - label: 风格一
+              value: style_1
+            - label: 风格二
+              value: style_2
+
+        - $formkit: attachment
+          name: logo
+          label: Logo
+          help: 如果不设置，将使用站点设置的 Logo
+
+        - $formkit: text
+          name: title
+          label: 标题
+          help: 如果不设置，将使用站点设置的标题
+
+        - $formkit: textarea
+          rows: 3
+          name: slogan
+          id: slogan
+          key: slogan
+          if: "$get(style).value === style_2"
+          label: 标语
+
+        - $formkit: select
+          if: "$get(style).value === style_1"
+          name: right_menu
+          id: right_menu
+          key: right_menu
+          label: 右侧菜单
+          action: "/api/v1alpha1/menus"
+          autoSelect: false
+          clearable: true
+          requestOption:
+            labelField: "spec.displayName"
+            valueField: "metadata.name"
+
+        - $formkit: select
+          if: "$get(style).value === style_2"
+          name: menu_names
+          id: menu_names
+          key: menu_names
+          label: 菜单组
+          value: []
+          multiple: true
+          sortable: true
+          action: "/api/v1alpha1/menus"
+          requestOption:
+            labelField: "spec.displayName"
+            valueField: "metadata.name"
+
+        - $formkit: array
+          name: social_media
+          label: 社交媒体
+          value: []
+          itemLabels:
+            - type: "iconify"
+              label: "$value.iconify"
+            - type: "text"
+              label: "$value.name"
+            - type: "text"
+              label: "$value.url"
+          children:
+            - $formkit: iconify
+              name: iconify
+              label: 图标
+              format: svg
+              validation: "required"
+            - $formkit: text
+              name: name
+              label: 名称
+            - $formkit: text
+              name: url
+              label: 链接
+              validation: "required"
+            - $formkit: select
+              name: url_type
+              label: 链接类型
+              value: normal
+              help: "如果选择了图片类型，那么在访客点击之后会使用弹框的形式加载"
+              options:
+                - label: 跳转链接
+                  value: normal
+                - label: 图片
+                  value: image
+            - $formkit: select
+              name: icon
+              label: 图标
+              help: 已废弃，将在未来的版本移除，请使用上方的图标选择器代替
+              options:
+                - label: 电子邮箱（tabler:mail）
+                  value: i-tabler-mail
+                - label: 微信（simple-icons:wechat）
+                  value: i-simple-icons-wechat
+                - label: 腾讯 QQ（simple-icons:tencentqq）
+                  value: i-simple-icons-tencentqq
+                - label: 新浪微博（simple-icons:sinaweibo）
+                  value: i-simple-icons-sinaweibo
+                - label: 知乎（simple-icons:zhihu）
+                  value: i-simple-icons-zhihu
+                - label: 豆瓣（simple-icons:douban）
+                  value: i-simple-icons-douban
+                - label: 哔哩哔哩（simple-icons:bilibili）
+                  value: i-simple-icons-bilibili
+                - label: 抖音 / TikTok（simple-icons:tiktok）
+                  value: i-simple-icons-tiktok
+                - label: Telegram（simple-icons:telegram）
+                  value: i-simple-icons-telegram
+                - label: Facebook（simple-icons:facebook）
+                  value: i-simple-icons-facebook
+                - label: Instagram（simple-icons:instagram）
+                  value: i-simple-icons-instagram
+                - label: LinkedIn（simple-icons:linkedin）
+                  value: i-simple-icons-linkedin
+                - label: Twitter（simple-icons:twitter）
+                  value: i-simple-icons-twitter
+                - label: Slack（simple-icons:slack）
+                  value: i-simple-icons-slack
+                - label: Discord（simple-icons:discord）
+                  value: i-simple-icons-discord
+                - label: YouTube（simple-icons:youtube）
+                  value: i-simple-icons-youtube
+                - label: Steam（simple-icons:steam）
+                  value: i-simple-icons-steam
+                - label: GitHub（simple-icons:github）
+                  value: i-simple-icons-github
+                - label: GitLab（simple-icons:gitlab）
+                  value: i-simple-icons-gitlab
+                - label: RSS（simple-icons:rss）
+                  value: i-simple-icons-rss
+        - $formkit: code
+          label: 自定义版权信息
+          name: custom_copyright
+          language: html
+          help: "如果不设置，将使用默认的版权信息，支持 HTML 代码"
+    - group: beian
+      label: 备案设置
+      formSchema:
+        - $formkit: text
+          name: icp_text
+          label: ICP备案号
+        - $formkit: text
+          name: gongan_text
+          label: 公安联网备案号
+    - group: updates
+      label: 独立更新
+      formSchema:
+        - $cmp: aoste-updates
+    - group: plugin
+      label: 插件集成
+      formSchema:
+        - $cmp: commerce-integration
+        - $el: h3
+          attrs:
+            style: "font-size: 16px; font-weight: 600; margin: 0 0 8px; color: #253247;"
+          children: 可选插件
+        - $el: p
+          attrs:
+            style: "font-size: 13px; color: #6a7688; margin: 0 0 18px;"
+          children: 安装 Docsme 后，可选择文档页面使用的模板。
+        - $formkit: group
+          name: docsme
+          label: Docsme 文档管理
+          value:
+            source: theme
+          children:
+            - $formkit: select
+              name: source
+              label: 模板来源
+              options:
+                - label: 由此主题提供
+                  value: theme
+                - label: 使用插件默认模板
+                  value: plugin
+
+    - group: commerce_home
+      label: 商城首页
+      formSchema:
+        - $formkit: select
+          name: columns
+          label: 商品列表列数
+          value: "3"
+          options:
+            - label: 两列
+              value: "2"
+            - label: 三列
+              value: "3"
+            - label: 四列
+              value: "4"
+        - $formkit: array
+          name: modules
+          label: 首页模块
+          help: 四个区块为幻灯片、分类导航、商品网格、图文推广；可排序及关闭。精选商品仅显示勾选精选的商品。
+          value:
+            - type: banner
+              title: ""
+              enabled: true
+            - type: categories
+              title: 商品分类
+              enabled: true
+            - type: products
+              title: 全部商品
+              enabled: true
+            - type: promotion
+              title: ""
+              enabled: false
+          itemLabels:
+            - type: text
+              label: "$value.title"
+          children:
+            - $formkit: select
+              name: type
+              id: commerce-home-type-36
+              key: commerce-home-type-36
+              label: 模块类型
+              value: products
+              options:
+                - label: 幻灯片（左大图＋右双图）
+                  value: banner
+                - label: 分类导航
+                  value: categories
+                - label: 精选商品
+                  value: featured
+                - label: 商品网格
+                  value: products
+                - label: 图文推广
+                  value: promotion
+            - $formkit: checkbox
+              name: enabled
+              id: commerce-home-enabled-51
+              key: commerce-home-enabled-51
+              label: 显示模块
+              value: true
+            - $formkit: text
+              name: title
+              id: commerce-home-title-55
+              key: commerce-home-title-55
+              label: 模块标题
+            - $formkit: textarea
+              name: description
+              id: commerce-home-description-58
+              key: commerce-home-description-58
+              label: 模块说明
+            - $formkit: text
+              name: category
+              id: commerce-home-category-61
+              key: commerce-home-category-61
+              if: "$value.type === 'featured' || $value.type === 'products'"
+              label: 分类标识
+              help: 留空显示全部分类的商品。
+            - $formkit: number
+              name: limit
+              id: commerce-home-limit-66
+              key: commerce-home-limit-66
+              if: "$value.type === 'featured' || $value.type === 'products'"
+              label: 商品数量
+              value: 8
+              validation: "required|min:1|max:48"
+            - $formkit: attachment
+              name: image
+              id: commerce-home-image-72
+              key: commerce-home-image-72
+              if: "$value.type === 'promotion'"
+              label: 推广图片
+            - $formkit: text
+              name: link
+              id: commerce-home-link-76
+              key: commerce-home-link-76
+              if: "$value.type === 'promotion'"
+              label: 推广链接
+            - $formkit: number
+              name: left_weight
+              id: commerce-banner-left_weight
+              key: commerce-banner-left_weight
+              if: "$value.type === 'banner'"
+              label: 左侧宽度比例
+              value: 2
+              validation: "required|min:1|max:6"
+              help: 与右侧比例组合，默认 2:1。
+            - $formkit: number
+              name: right_weight
+              id: commerce-banner-right_weight
+              key: commerce-banner-right_weight
+              if: "$value.type === 'banner'"
+              label: 右侧宽度比例
+              value: 1
+              validation: "required|min:1|max:6"
+            - $formkit: number
+              name: height
+              id: commerce-banner-height
+              key: commerce-banner-height
+              if: "$value.type === 'banner'"
+              label: 桌面区块高度（px）
+              value: 420
+              validation: "required|min:200|max:900"
+              help: 手机端自动堆叠，不使用桌面高度。
+            - $formkit: number
+              name: gap
+              id: commerce-banner-gap
+              key: commerce-banner-gap
+              if: "$value.type === 'banner'"
+              label: 图片间距（px）
+              value: 16
+              validation: "required|min:0|max:48"
+            - $formkit: number
+              name: top_weight
+              id: commerce-banner-top_weight
+              key: commerce-banner-top_weight
+              if: "$value.type === 'banner'"
+              label: 右侧上图高度比例
+              value: 1
+              validation: "required|min:1|max:6"
+              help: 默认上下 1:1。
+            - $formkit: number
+              name: bottom_weight
+              id: commerce-banner-bottom_weight
+              key: commerce-banner-bottom_weight
+              if: "$value.type === 'banner'"
+              label: 右侧下图高度比例
+              value: 1
+              validation: "required|min:1|max:6"
+            - $formkit: number
+              name: interval
+              id: commerce-banner-interval
+              key: commerce-banner-interval
+              if: "$value.type === 'banner'"
+              label: 自动切换间隔（秒）
+              value: 5
+              validation: "required|min:0|max:60"
+              help: 0 表示不自动切换。
+            - $formkit: select
+              name: fit
+              id: commerce-home-fit-140
+              key: commerce-home-fit-140
+              if: "$value.type === 'banner' || $value.type === 'promotion'"
+              label: 图片适应方式
+              value: cover
+              options:
+                - label: 填满裁剪
+                  value: cover
+                - label: 完整显示
+                  value: contain
+            - $formkit: text
+              name: mobile_ratio
+              id: commerce-home-mobile_ratio-150
+              key: commerce-home-mobile_ratio-150
+              if: "$value.type === 'banner'"
+              label: 手机大图宽高比
+              value: "16 / 9"
+              validation: 'matches:/^[0-9]+ *\/ *[0-9]+$/'
+              help: 例如 16 / 9、4 / 3、1 / 1。
+            - $formkit: attachment
+              name: top_image
+              id: commerce-home-top_image-157
+              key: commerce-home-top_image-157
+              if: "$value.type === 'banner'"
+              label: 右侧上图图片
+            - $formkit: text
+              name: top_title
+              id: commerce-home-top_title-161
+              key: commerce-home-top_title-161
+              if: "$value.type === 'banner'"
+              label: 右侧上图图片说明
+            - $formkit: text
+              name: top_link
+              id: commerce-home-top_link-165
+              key: commerce-home-top_link-165
+              if: "$value.type === 'banner'"
+              label: 右侧上图跳转链接
+            - $formkit: attachment
+              name: bottom_image
+              id: commerce-home-bottom_image-169
+              key: commerce-home-bottom_image-169
+              if: "$value.type === 'banner'"
+              label: 右侧下图图片
+            - $formkit: text
+              name: bottom_title
+              id: commerce-home-bottom_title-173
+              key: commerce-home-bottom_title-173
+              if: "$value.type === 'banner'"
+              label: 右侧下图图片说明
+            - $formkit: text
+              name: bottom_link
+              id: commerce-home-bottom_link-177
+              key: commerce-home-bottom_link-177
+              if: "$value.type === 'banner'"
+              label: 右侧下图跳转链接
+            - $formkit: checkbox
+              name: new_tab
+              id: commerce-home-new_tab-181
+              key: commerce-home-new_tab-181
+              label: 图片链接在新窗口打开
+              value: false
+              if: "$value.type === 'banner' || $value.type === 'promotion'"
+            - $cmp: commerce-categories
+              if: "$value.type === 'categories'"
+              key: commerce-home-category-management
+            - $formkit: array
+              name: slides
+              id: commerce-home-slides-186
+              key: commerce-home-slides-186
+              if: "$value.type === 'banner'"
+              label: 左侧大图轮播列表
+              help: 可添加多张图片，每张图片独立配置链接；支持自动切换和指示点切换。
+              value: []
+              itemLabels:
+                - type: text
+                  label: "$value.title"
+              children:
+                - $formkit: text
+                  name: title
+                  id: commerce-home-title-196
+                  key: commerce-home-title-196
+                  label: 图片标题
+                - $formkit: attachment
+                  name: image
+                  id: commerce-home-image-199
+                  key: commerce-home-image-199
+                  label: 图片
+                  validation: required
+                - $formkit: text
+                  name: link
+                  id: commerce-home-link-203
+                  key: commerce-home-link-203
+                  label: 跳转链接
+    - group: commerce_detail
+      label: 商品详情
+      formSchema:
+        - $formkit: select
+          name: gallery_layout
+          label: 商品图库布局
+          value: left
+          options:
+            - label: 左图右信息
+              value: left
+            - label: 上图下信息
+              value: top
+        - $formkit: checkbox
+          name: show_stock
+          label: 显示库存
+          value: true
+        - $formkit: checkbox
+          name: show_product_type
+          label: 显示实物／数字商品标识
+          value: true
+        - $formkit: checkbox
+          name: sticky_purchase
+          label: 固定购买栏
+          value: true
+        - $formkit: text
+          name: purchase_label
+          label: 购买按钮文案
+          value: 立即购买
+        - $formkit: checkbox
+          name: show_description
+          label: 显示商品说明
+          value: true
+        - $formkit: checkbox
+          name: show_after_sales
+          id: show_after_sales
+          label: 显示售后说明
+          value: true
+        - $formkit: textarea
+          name: after_sales
+          id: after_sales
+          key: after_sales
+          if: "$get(show_after_sales).value"
+          label: 通用售后说明
+          value: 请在购买前阅读商品的交付与售后说明。
+        - $formkit: checkbox
+          name: show_related
+          id: show_related
+          key: show_related
+          label: 显示相关推荐
+          value: true
+        - $formkit: number
+          name: related_limit
+          id: related_limit
+          key: related_limit
+          if: "$get(show_related).value"
+          label: 推荐商品数量
+          value: 4
+          validation: "required|min:1|max:12"
+    - group: commerce_products
+      label: 商品管理
+      formSchema:
+        - $cmp: commerce-products
+    - group: commerce_orders
+      label: 订单管理
+      formSchema:
+        - $cmp: commerce-orders
+    - group: commerce_payment
+      label: 支付管理
+      formSchema:
+        - $cmp: commerce-payment
