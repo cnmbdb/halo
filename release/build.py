@@ -38,6 +38,12 @@ for kind, name, number, path in (("theme", "theme-aoset", theme, theme_file), ("
 (out / "updates.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
 notes = f"""AOSTE 主题 {theme} · 商城插件 {plugin}
 
+修复插件升级后 commerce-settings 无法加载：打包保留 JAR 中的目录条目，
+使 Halo 可正常发现 extensions 下的配置与权限定义。
+恢复主题详情“升级”打开的 AOSTE 独立更新入口。
+增加目录、配置定义、版本元数据与主题更新扩展点的回归检查。
+主题详情作者改为 HFXChat，链接为 https://x.com/HFXChat。
+
 独立更新修复（需要升级商城插件）：
 - 手动点击“检查更新”绕过内存、浏览器及 CDN 的旧清单缓存。
 - 保留并发请求合并、自动检查的一分钟缓存，以及版本、来源、文件大小和 SHA-256 校验。

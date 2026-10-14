@@ -10,6 +10,7 @@ def replace_once(source, old, new):
 
 def patch_plugin(data, old_version, new_version):
     with ZipFile(io.BytesIO(data)) as original:
+        entries = original.infolist()
         files = {n: original.read(n) for n in original.namelist() if not n.endswith('/')}
     js = files['console/main.js'].decode()
     js = replace_once(js, 'credentials:"omit",headers:{Accept:f}',
@@ -36,6 +37,8 @@ def patch_plugin(data, old_version, new_version):
         f'Implementation-Version: {old_version}', f'Implementation-Version: {new_version}').encode()
     output = io.BytesIO()
     with ZipFile(output, 'w', ZIP_DEFLATED) as archive:
-        for name, content in sorted(files.items()):
-            archive.writestr(name, content)
+        # Spring resolves classpath:extensions/*.yaml by locating extensions/
+        # first. Omitting directory entries makes existing YAML undiscoverable.
+        for entry in entries:
+            archive.writestr(entry, b'' if entry.is_dir() else files[entry.filename])
     return output.getvalue()

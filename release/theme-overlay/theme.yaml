@@ -5,8 +5,8 @@ metadata:
 spec:
   displayName: AOSTE
   author:
-    name: cnmbdb
-    website: https://github.com/cnmbdb
+    name: HFXChat
+    website: https://x.com/HFXChat
   description: 自主开发的 Halo 商城主题，支持实物与数字商品、商城首页、订单管理和易支付。
   logo: /themes/theme-aoset/assets/aoste-theme-logo.png
   homepage: https://hfz.pw/archives/2675
@@ -14,7 +14,7 @@ spec:
   issues: https://github.com/cnmbdb/halo/issues
   settingName: "theme-aoset-setting"
   configMapName: "theme-earth-configMap"
-  version: 1.19.11
+  version: 1.19.12
   requires: ">=2.22.0"
   license:
     - name: "GPL-3.0"
