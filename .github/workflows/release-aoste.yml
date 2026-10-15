@@ -37,7 +37,7 @@ jobs:
       - name: Publish packages
         run: |
           VERSION=$(python -c 'import json; print(json.load(open("release/version.json"))["theme"])')
-          gh release create "aoste-v$VERSION" "dist/theme-aoset-$VERSION.zip" dist/plugin-commerce-*.jar dist/updates.json "dist/AOSTE-$VERSION-with-commerce-plugin.zip" --target "$GITHUB_SHA" --title "AOSTE $VERSION · 修复插件配置加载与主题升级入口" --notes-file dist/notes.md --latest
+          gh release create "aoste-v$VERSION" "dist/theme-aoset-$VERSION.zip" dist/plugin-commerce-*.jar dist/updates.json "dist/AOSTE-$VERSION-with-commerce-plugin.zip" --target "$GITHUB_SHA" --title "AOSTE $VERSION · 移动端首页布局与后台设置" --notes-file dist/notes.md --latest
           gh api "repos/$GH_REPO/releases/tags/aoste-v$VERSION" > dist/published-release.json
       - name: Refresh static update source
         run: |

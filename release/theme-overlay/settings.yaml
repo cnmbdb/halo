@@ -110,7 +110,7 @@ spec:
                   value: true
                 - $formkit: select
                   name: cards_columns
-                  label: 卡片列数
+                  label: 桌面端卡片列数
                   value: "3"
                   options:
                     - label: 两列
@@ -119,6 +119,41 @@ spec:
                       value: "3"
                     - label: 四列
                       value: "4"
+                - $formkit: select
+                  name: cards_mobile_columns
+                  label: 手机端卡片列数
+                  value: "2"
+                  help: 仅影响首页自定义卡片，767px 及以下生效，桌面列数独立设置。
+                  options:
+                    - label: 单列大图
+                      value: "1"
+                    - label: 双列紧凑
+                      value: "2"
+                - $formkit: select
+                  name: cards_mobile_ratio
+                  label: 手机端媒体比例
+                  value: auto
+                  help: 原图比例完整展示图片和 GIF；固定比例沿用每张卡片的填充方式，视频默认 16:10。
+                  options:
+                    - label: 原图比例（不裁切）
+                      value: auto
+                    - label: 横向 16:10
+                      value: landscape
+                    - label: 正方形 1:1
+                      value: square
+                    - label: 沿用每张卡片的高度
+                      value: desktop
+                - $formkit: select
+                  name: cards_mobile_gap
+                  label: 手机端卡片间距
+                  value: "12"
+                  options:
+                    - label: 紧凑（8px）
+                      value: "8"
+                    - label: 适中（12px）
+                      value: "12"
+                    - label: 宽松（18px）
+                      value: "18"
                 - $formkit: number
                   name: cards_limit
                   label: 展示数量
@@ -179,10 +214,10 @@ spec:
                       min: 0
                       max: 2560
                       validation: "number|min:0|max:2560"
-                      help: 0 自动填满当前列；小屏幕自动适配。
+                      help: 0 自动填满当前列；手机端始终填满所选列宽。
                     - $formkit: number
                       name: height
-                      label: 媒体高度（px）
+                      label: 桌面端媒体高度（px）
                       value: 240
                       min: 80
                       max: 1440

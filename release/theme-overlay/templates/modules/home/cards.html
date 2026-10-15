@@ -1,0 +1,65 @@
+<section
+  id="home-cards"
+  class="home-section"
+  th:if="${home.cards_enabled != false and not #lists.isEmpty(home.cards)}"
+  th:attr="data-mobile-columns=${home.cards_mobile_columns == '1' ? '1' : '2'},data-mobile-ratio=${home.cards_mobile_ratio ?: 'auto'}"
+  th:style="${home.cards_mobile_gap == '18' ? '--mobile-card-gap:18px' : (home.cards_mobile_gap == '8' ? '--mobile-card-gap:8px' : '--mobile-card-gap:12px')}"
+  aria-label="自定义卡片"
+>
+  <div
+    class="home-custom-grid"
+    th:classappend="${home.cards_columns == '2' ? 'columns-2' : (home.cards_columns == '4' ? 'columns-4' : 'columns-3')}"
+  >
+    <article
+      class="home-custom-card"
+      th:each="card,stat : ${home.cards}"
+      th:if="${home.cards_limit == null or home.cards_limit == '' or #conversions.convert(home.cards_limit, 'java.lang.Integer') == 0 or stat.index < #conversions.convert(home.cards_limit, 'java.lang.Integer')}"
+      th:style="${card.width != null and card.width != '' and #conversions.convert(card.width, 'java.lang.Integer') > 0 ? 'width: ' + card.width + 'px; max-width: 100%; justify-self: center;' : ''}"
+      th:classappend="${card.media_type == 'video' and card.controls != false ? 'has-video-controls' : ''}"
+      th:with="hasLink=${not #strings.isEmpty(card.link) and (#strings.startsWith(card.link, 'https://') or #strings.startsWith(card.link, 'http://') or (#strings.startsWith(card.link, '/') and not #strings.startsWith(card.link, '//')))}"
+    >
+      <div
+        class="home-media-frame"
+        th:if="${not #strings.isEmpty(card.image) or (card.media_type == 'video' and not #strings.isEmpty(card.video))}"
+        th:style="|height: ${card.height != null and card.height != '' ? card.height : 240}px;|"
+      >
+        <video
+          th:if="${card.media_type == 'video' and not #strings.isEmpty(card.video)}"
+          th:src="${card.video}"
+          th:poster="${card.poster}"
+          preload="metadata"
+          playsinline
+          th:controls="${card.controls != false}"
+          th:autoplay="${card.autoplay == true}"
+          th:muted="${card.autoplay == true}"
+          th:loop="${card.autoplay == true}"
+          th:style="${card.fit == 'contain' ? 'object-fit: contain;' : 'object-fit: cover;'}"
+          th:aria-label="${card.title}"
+        >
+          您的浏览器不支持视频播放。
+        </video>
+        <img
+          th:unless="${card.media_type == 'video' and not #strings.isEmpty(card.video)}"
+          th:src="${card.image == '/themes/theme-aoset/screenshot.png' or #strings.startsWith(card.image, '/themes/theme-aoset/screenshot.png?') ? #strings.replace(card.image, '/themes/theme-aoset/screenshot.png', '/themes/theme-aoset/screenshot.jpeg') : card.image}"
+          th:alt="${card.title}"
+          loading="lazy"
+          decoding="async"
+          th:style="${card.fit == 'contain' ? 'object-fit: contain;' : 'object-fit: cover;'}"
+        />
+      </div>
+      <a
+        th:if="${hasLink}"
+        class="home-media-link"
+        th:href="${card.link}"
+        th:classappend="${card.media_type == 'video' and card.controls != false ? 'video-link' : ''}"
+        th:target="${card.new_tab == true ? '_blank' : '_self'}"
+        rel="noopener noreferrer"
+        th:aria-label="${card.title}"
+      >
+        <svg th:if="${card.media_type == 'video' and card.controls != false}" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 17 17 7M7 7h10v10" fill="none" stroke="currentColor" stroke-width="2" />
+        </svg>
+      </a>
+    </article>
+  </div>
+</section>
