@@ -92,17 +92,17 @@ AOSTE 是一款用于 Halo 的网站主题，适合展示文章，也可以搭�
 
 <!-- aoste-release-source
 {
-  "tag_name": "aoste-v1.19.13",
-  "html_url": "https://github.com/cnmbdb/halo/releases/tag/aoste-v1.19.13",
+  "tag_name": "aoste-v1.19.14",
+  "html_url": "https://github.com/cnmbdb/halo/releases/tag/aoste-v1.19.14",
   "draft": false,
   "prerelease": false,
-  "body": "AOSTE 主题 1.19.13 · 商城插件 0.2.8\n\n首页移动端布局优化：\n- 手机搜索改为图标按钮，减少导航挤占。\n- 自定义卡片默认双列、原图比例，避免固定高度裁切和长屏堆叠。\n- 后台：首页布局 → 自定义卡片区块，新增手机端列数、媒体比例、卡片间距。\n- 手机端支持单列/双列、原图/16:10/1:1/沿用卡片高度、8/12/18px 间距；桌面列数和尺寸独立保留。\n- 收紧首页区块、分类、文章卡片间距，调整移动端圆角与文字尺寸。\n- 幻灯片紧凑/舒展高度适配手机，保留全高度和自适应模式。\n- 已在 Docker 沙盒实际验证后台切换保存，测试 320/390/430/768/1280px，无横向溢出。\n- 插件保持 0.2.8，本次无需升级插件。\n\n建议先手动升级插件至 0.2.8，刷新后台后再检查并升级主题。\n旧版检查不到新版本时，可从本发布页下载插件 JAR，通过 Halo 自带的插件升级上传一次。\n后台手动升级：主题 → 独立更新 → 检查更新 → 升级主题。\n也可下载 theme-aoset-1.19.13.zip，通过 Halo 自带的主题升级上传安装。\n升级前可导出主题配置；主题文件会被新版覆盖。\n\n```aoste-update\n{\n  \"schemaVersion\": 1,\n  \"theme\": {\n    \"id\": \"theme-aoset\",\n    \"version\": \"1.19.13\",\n    \"asset\": \"theme-aoset-1.19.13.zip\",\n    \"requires\": \">=2.26.0\",\n    \"sha256\": \"637c115ac65560bcbf10f77164135cf6aa1f53312b7b87c2deeea17395dbc123\"\n  },\n  \"plugin\": {\n    \"id\": \"commerce\",\n    \"version\": \"0.2.8\",\n    \"asset\": \"plugin-commerce-0.2.8.jar\",\n    \"requires\": \">=2.26.0\",\n    \"sha256\": \"4f20be3f0fb8c1c1f2d389a9d4edf602e077387babf2e235c243c49d1fac1ef1\"\n  }\n}\n```\n",
+  "body": "AOSTE 主题 1.19.14 · 商城插件 0.2.9\n\n主题与插件共用 ETS 授权入口：\n- 后台主题更新页与插件设置共用一份授权码，保存并验证后同时生效。\n- 如无授权码请前往获取（免费）：https://hfz.pw/shop/2678.html\n- 未授权时由服务端禁止主题页面、商品浏览与新下单；后台授权/更新入口、已有订单查询、交付与支付回调保留。\n- 授权码保存在 Halo Secret 中；授权失效、撤销或到期后停止对外服务。服务端最多缓存一分钟；授权服务故障时校验失败。\n- 主题依赖 Aoste主题插件 >=0.2.9，插件停用或缺失时显示授权提示页。\n\n部署前先发布 ETS-admin 的 /api/authorization/aoste，再升级插件与主题并填写授权码。\n先在测试站验证授权，再应用生产站点；未授权的站点升级后将停止主题与商城服务。\n升级前请备份站点和主题自定义文件。\n\n```aoste-update\n{\n  \"schemaVersion\": 1,\n  \"theme\": {\n    \"id\": \"theme-aoset\",\n    \"version\": \"1.19.14\",\n    \"asset\": \"theme-aoset-1.19.14.zip\",\n    \"requires\": \">=2.26.0\",\n    \"sha256\": \"42926f8cbcd0cc6a733797125f0ca4a956df10ad480b5da62d1a7c90579167a3\"\n  },\n  \"plugin\": {\n    \"id\": \"commerce\",\n    \"version\": \"0.2.9\",\n    \"asset\": \"plugin-commerce-0.2.9.jar\",\n    \"requires\": \">=2.26.0\",\n    \"sha256\": \"bff3ec64de055744c765dd4cc98b03a0b18c858f65eb52c498fecaf8df0e68f8\"\n  }\n}\n```\n",
   "assets": [
     {
-      "url": "https://api.github.com/repos/cnmbdb/halo/releases/assets/643916478",
-      "id": 643916478,
-      "node_id": "RA_kwDOU14Bjc4mYWK-",
-      "name": "AOSTE-1.19.13-with-commerce-plugin.zip",
+      "url": "https://api.github.com/repos/cnmbdb/halo/releases/assets/651476494",
+      "id": 651476494,
+      "node_id": "RA_kwDOU14Bjc4m1L4O",
+      "name": "AOSTE-1.19.14-with-commerce-plugin.zip",
       "label": "",
       "uploader": {
         "login": "github-actions[bot]",
@@ -127,18 +127,18 @@ AOSTE 是一款用于 Halo 的网站主题，适合展示文章，也可以搭�
       },
       "content_type": "application/zip",
       "state": "uploaded",
-      "size": 6677892,
-      "digest": "sha256:14cbd8a3d9244f7a7b5a1021980c7342d15e994a2162131f61dd451cc593ad2a",
+      "size": 6697763,
+      "digest": "sha256:35895d6b1c19c2eda1db9ac3c1f5ee4908a3b3764f91121ee61ff107a5b5efe2",
       "download_count": 0,
-      "created_at": "2026-10-15T13:14:21Z",
-      "updated_at": "2026-10-15T13:14:22Z",
-      "browser_download_url": "https://github.com/cnmbdb/halo/releases/download/aoste-v1.19.13/AOSTE-1.19.13-with-commerce-plugin.zip"
+      "created_at": "2026-10-17T20:09:32Z",
+      "updated_at": "2026-10-17T20:09:33Z",
+      "browser_download_url": "https://github.com/cnmbdb/halo/releases/download/aoste-v1.19.14/AOSTE-1.19.14-with-commerce-plugin.zip"
     },
     {
-      "url": "https://api.github.com/repos/cnmbdb/halo/releases/assets/643916484",
-      "id": 643916484,
-      "node_id": "RA_kwDOU14Bjc4mYWLE",
-      "name": "plugin-commerce-0.2.8.jar",
+      "url": "https://api.github.com/repos/cnmbdb/halo/releases/assets/651476490",
+      "id": 651476490,
+      "node_id": "RA_kwDOU14Bjc4m1L4K",
+      "name": "plugin-commerce-0.2.9.jar",
       "label": "",
       "uploader": {
         "login": "github-actions[bot]",
@@ -163,18 +163,18 @@ AOSTE 是一款用于 Halo 的网站主题，适合展示文章，也可以搭�
       },
       "content_type": "application/java-archive",
       "state": "uploaded",
-      "size": 1907910,
-      "digest": "sha256:4f20be3f0fb8c1c1f2d389a9d4edf602e077387babf2e235c243c49d1fac1ef1",
+      "size": 1924695,
+      "digest": "sha256:bff3ec64de055744c765dd4cc98b03a0b18c858f65eb52c498fecaf8df0e68f8",
       "download_count": 0,
-      "created_at": "2026-10-15T13:14:21Z",
-      "updated_at": "2026-10-15T13:14:21Z",
-      "browser_download_url": "https://github.com/cnmbdb/halo/releases/download/aoste-v1.19.13/plugin-commerce-0.2.8.jar"
+      "created_at": "2026-10-17T20:09:32Z",
+      "updated_at": "2026-10-17T20:09:33Z",
+      "browser_download_url": "https://github.com/cnmbdb/halo/releases/download/aoste-v1.19.14/plugin-commerce-0.2.9.jar"
     },
     {
-      "url": "https://api.github.com/repos/cnmbdb/halo/releases/assets/643916483",
-      "id": 643916483,
-      "node_id": "RA_kwDOU14Bjc4mYWLD",
-      "name": "theme-aoset-1.19.13.zip",
+      "url": "https://api.github.com/repos/cnmbdb/halo/releases/assets/651476491",
+      "id": 651476491,
+      "node_id": "RA_kwDOU14Bjc4m1L4L",
+      "name": "theme-aoset-1.19.14.zip",
       "label": "",
       "uploader": {
         "login": "github-actions[bot]",
@@ -199,17 +199,17 @@ AOSTE 是一款用于 Halo 的网站主题，适合展示文章，也可以搭�
       },
       "content_type": "application/zip",
       "state": "uploaded",
-      "size": 4784920,
-      "digest": "sha256:637c115ac65560bcbf10f77164135cf6aa1f53312b7b87c2deeea17395dbc123",
+      "size": 4787298,
+      "digest": "sha256:42926f8cbcd0cc6a733797125f0ca4a956df10ad480b5da62d1a7c90579167a3",
       "download_count": 0,
-      "created_at": "2026-10-15T13:14:21Z",
-      "updated_at": "2026-10-15T13:14:22Z",
-      "browser_download_url": "https://github.com/cnmbdb/halo/releases/download/aoste-v1.19.13/theme-aoset-1.19.13.zip"
+      "created_at": "2026-10-17T20:09:32Z",
+      "updated_at": "2026-10-17T20:09:33Z",
+      "browser_download_url": "https://github.com/cnmbdb/halo/releases/download/aoste-v1.19.14/theme-aoset-1.19.14.zip"
     },
     {
-      "url": "https://api.github.com/repos/cnmbdb/halo/releases/assets/643916481",
-      "id": 643916481,
-      "node_id": "RA_kwDOU14Bjc4mYWLB",
+      "url": "https://api.github.com/repos/cnmbdb/halo/releases/assets/651476493",
+      "id": 651476493,
+      "node_id": "RA_kwDOU14Bjc4m1L4N",
       "name": "updates.json",
       "label": "",
       "uploader": {
@@ -236,11 +236,11 @@ AOSTE 是一款用于 Halo 的网站主题，适合展示文章，也可以搭�
       "content_type": "application/json",
       "state": "uploaded",
       "size": 459,
-      "digest": "sha256:464c3757c0525593c6182c0d4190cacdb30befac488e7bdd2681be05fd72f2c7",
+      "digest": "sha256:d00b837725683a4d05bab2845e098e9dba50d17ff6bee71ce4aad844cc89edd1",
       "download_count": 0,
-      "created_at": "2026-10-15T13:14:21Z",
-      "updated_at": "2026-10-15T13:14:21Z",
-      "browser_download_url": "https://github.com/cnmbdb/halo/releases/download/aoste-v1.19.13/updates.json"
+      "created_at": "2026-10-17T20:09:32Z",
+      "updated_at": "2026-10-17T20:09:33Z",
+      "browser_download_url": "https://github.com/cnmbdb/halo/releases/download/aoste-v1.19.14/updates.json"
     }
   ]
 }
