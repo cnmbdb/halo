@@ -5,12 +5,15 @@ import json
 from pathlib import Path
 from zipfile import ZipFile, ZIP_DEFLATED
 from patch_plugin import patch_plugin
+from build_license import build_license
+from theme_license import guard_theme
 
 ROOT = Path(__file__).resolve().parent.parent
 version = json.loads((ROOT / "release/version.json").read_text())
 theme, base, plugin = (version[key] for key in ("theme", "baseTheme", "plugin"))
 out = ROOT / "dist"
 out.mkdir(exist_ok=True)
+build_license(ROOT)
 with ZipFile(ROOT / f"AOSTE-{base}-with-commerce-plugin.zip") as bundle:
     files = {}
     with ZipFile(io.BytesIO(bundle.read(f"theme-aoset-{base}.zip"))) as original:
@@ -19,10 +22,11 @@ with ZipFile(ROOT / f"AOSTE-{base}-with-commerce-plugin.zip") as bundle:
     plugin_data = bundle.read(f"plugin-commerce-{base_plugin}.jar")
     if plugin != base_plugin:
         plugin_data = patch_plugin(plugin_data, base_plugin, plugin)
-    readme = bundle.read("README.md").decode().replace(base, theme).replace(base_plugin, plugin)
+    readme = (ROOT / "README.md").read_text().split("<!-- aoste-release-source", 1)[0].rstrip() + "\n"
 for path in (ROOT / "release/theme-overlay").rglob("*"):
     if path.is_file():
         files[path.relative_to(ROOT / "release/theme-overlay").as_posix()] = path.read_bytes()
+guard_theme(files)
 assert f"version: {theme}" in files["theme.yaml"].decode()
 assert all(f"value: {value}" in files["settings.yaml"].decode() for value in ("compact", "comfortable", "full", "auto"))
 assert b'slides-height.css' in files["templates/modules/home/slides.html"]
@@ -38,21 +42,16 @@ for kind, name, number, path in (("theme", "theme-aoset", theme, theme_file), ("
 (out / "updates.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
 notes = f"""AOSTE 主题 {theme} · 商城插件 {plugin}
 
-首页移动端布局优化：
-- 手机搜索改为图标按钮，减少导航挤占。
-- 自定义卡片默认双列、原图比例，避免固定高度裁切和长屏堆叠。
-- 后台：首页布局 → 自定义卡片区块，新增手机端列数、媒体比例、卡片间距。
-- 手机端支持单列/双列、原图/16:10/1:1/沿用卡片高度、8/12/18px 间距；桌面列数和尺寸独立保留。
-- 收紧首页区块、分类、文章卡片间距，调整移动端圆角与文字尺寸。
-- 幻灯片紧凑/舒展高度适配手机，保留全高度和自适应模式。
-- 已在 Docker 沙盒实际验证后台切换保存，测试 320/390/430/768/1280px，无横向溢出。
-- 插件保持 0.2.8，本次无需升级插件。
+主题与插件共用 ETS 授权入口：
+- 后台主题更新页与插件设置共用一份授权码，保存并验证后同时生效。
+- 如无授权码请前往获取（免费）：https://hfz.pw/shop/2678.html
+- 未授权时由服务端禁止主题页面、商品浏览与新下单；后台授权/更新入口、已有订单查询、交付与支付回调保留。
+- 授权码保存在 Halo Secret 中；授权失效、撤销或到期后停止对外服务。服务端最多缓存一分钟；授权服务故障时校验失败。
+- 主题依赖 Aoste主题插件 >=0.2.9，插件停用或缺失时显示授权提示页。
 
-建议先手动升级插件至 {plugin}，刷新后台后再检查并升级主题。
-旧版检查不到新版本时，可从本发布页下载插件 JAR，通过 Halo 自带的插件升级上传一次。
-后台手动升级：主题 → 独立更新 → 检查更新 → 升级主题。
-也可下载 theme-aoset-{theme}.zip，通过 Halo 自带的主题升级上传安装。
-升级前可导出主题配置；主题文件会被新版覆盖。
+部署前先发布 ETS-admin 的 /api/authorization/aoste，再升级插件与主题并填写授权码。
+先在测试站验证授权，再应用生产站点；未授权的站点升级后将停止主题与商城服务。
+升级前请备份站点和主题自定义文件。
 
 ```aoste-update
 {json.dumps(manifest, ensure_ascii=False, indent=2)}

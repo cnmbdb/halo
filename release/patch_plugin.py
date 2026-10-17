@@ -1,5 +1,6 @@
 """Apply the update UI fix to the published plugin; preserve all backend classes."""
 import io
+from pathlib import Path
 from zipfile import ZipFile, ZIP_DEFLATED
 
 
@@ -24,12 +25,28 @@ def patch_plugin(data, old_version, new_version):
     js = replace_once(js, 'd.value=await W(),s.value=new Date()',
                       'd.value=await W(Boolean(event)),s.value=new Date()')
     js = replace_once(js, 'e.createElementVNode("span",{class:"eyebrow"},"GITHUB RELEASES"),', '')
+    license_source = (Path(__file__).parent / 'license-console.js').read_text()
+    js = replace_once(js, 'const q=T(e.defineComponent({__name:"UpdatesView",setup(y){',
+        license_source + '\nconst q=T(e.defineComponent({__name:"UpdatesView",setup(y){')
+    js = replace_once(js, '},[e.createElementVNode("header",qt,',
+        '},[e.createVNode(AosteLicensePanel),e.createElementVNode("header",qt,')
     files['console/main.js'] = js.encode()
+    classes = Path(__file__).parent / 'license-backend/target/classes'
+    compiled = list(classes.rglob('*.class'))
+    if not compiled:
+        raise RuntimeError('Build release/license-backend with Maven before packaging')
+    for path in compiled:
+        files[path.relative_to(classes).as_posix()] = path.read_bytes()
+    components = files['META-INF/plugin-components.idx'].decode()
+    components += '\n' + '\n'.join('local.halo.commerce.license.' + name for name in
+        ('AosteLicenseService', 'AosteLicenseRoutes', 'AosteLicenseFilter')) + '\n'
+    files['META-INF/plugin-components.idx'] = components.encode()
     css = files['console/style.css'].decode()
     css = replace_once(css,
         '.update-card[data-v-74d8824b]{border:1px solid #e3e8f0;border-radius:12px;padding:22px;background:#fff}',
         '.update-card[data-v-74d8824b]{border:0;border-radius:16px;padding:22px;background:rgba(235,241,250,.62);-webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%);box-shadow:0 8px 28px rgba(30,50,80,.045)}')
     css += '\n.dark .update-card[data-v-74d8824b]{background:rgba(30,41,59,.68);color:#e2e8f0}\n'
+    css += (Path(__file__).parent / 'license-console.css').read_text()
     files['console/style.css'] = css.encode()
     files['plugin.yaml'] = replace_once(files['plugin.yaml'].decode(),
                                        f'version: "{old_version}"', f'version: "{new_version}"').encode()
@@ -40,5 +57,7 @@ def patch_plugin(data, old_version, new_version):
         # Spring resolves classpath:extensions/*.yaml by locating extensions/
         # first. Omitting directory entries makes existing YAML undiscoverable.
         for entry in entries:
-            archive.writestr(entry, b'' if entry.is_dir() else files[entry.filename])
+            archive.writestr(entry, b'' if entry.is_dir() else files.pop(entry.filename))
+        for name, content in files.items():
+            archive.writestr(name, content)
     return output.getvalue()
