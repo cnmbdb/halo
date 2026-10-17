@@ -1,12 +1,12 @@
 # AOSTE 统一授权
 
-主题 1.19.14 与插件 0.2.9 共用一个授权码。主题后台的更新页、插件设置里的独立更新页、`/console/aoste/updates` 使用同一个表单与服务端状态。
+主题 1.19.15 与插件 0.3.0 共用一个授权码。主题后台的更新页、插件设置里的独立更新页、`/console/aoste/updates` 使用同一个表单与服务端状态。
 
 ## 部署顺序
 
 1. 先部署本机 `ETS-admin` 的 `app/src/app/api/authorization/aoste/route.ts`。
 2. ETS 中启用 `plugin_slug=aoste` 的“Aoste主题”产品。当前只读检查确认此记录存在且为免费产品；本次未修改数据库。
-3. 先安装/升级 `plugin-commerce-0.2.9.jar`，再升级 `theme-aoset-1.19.14.zip`。
+3. 先安装/升级 `plugin-commerce-0.3.0.jar`，再升级 `theme-aoset-1.19.15.zip`。
 4. 超级管理员打开主题后台更新页，填入 ETS 用户授权码（`ets_ak_...`），保存并验证。
 5. 确认主题首页、商城浏览与下单恢复；退出授权页、刷新或换浏览器后状态保持。
 
@@ -50,7 +50,7 @@ node --check dist/plugin-main.js
 node release/test-updates.cjs dist/plugin-main.js
 node release/test-license-console.cjs dist/plugin-main.js
 mvn -q -f release/license-backend/pom.xml dependency:build-classpath -Dmdep.outputFile=/tmp/aoste-license-cp
-java -cp "$(cat /tmp/aoste-license-cp)" release/VerifyLicenseTemplates.java dist/theme-aoset-1.19.14.zip
+java -cp "$(cat /tmp/aoste-license-cp)" release/VerifyLicenseTemplates.java dist/theme-aoset-1.19.15.zip
 ```
 
 构建自动执行授权后端的 15 项测试，包含状态共享、过期、撤销、失败关闭、Secret 保存、无效替换、权限检查、实际请求拦截与恢复入口。原插件后端 class 文件保持字节一致，新增授权扩展通过 Halo 的插件组件索引注册。

@@ -6,10 +6,10 @@ AOSTE 是一款用于 Halo 的网站主题，适合展示文章，也可以搭�
 
 ## 下载包里有什么
 
-下载 `AOSTE-1.19.14-with-commerce-plugin.zip` 后，请先在电脑上解压。里面有两个需要分别安装的文件：
+下载 `AOSTE-1.19.15-with-commerce-plugin.zip` 后，请先在电脑上解压。里面有两个需要分别安装的文件：
 
-- `theme-aoset-1.19.14.zip`：AOSTE 网站主题。
-- `plugin-commerce-0.2.9.jar`：商城插件。
+- `theme-aoset-1.19.15.zip`：AOSTE 网站主题。
+- `plugin-commerce-0.3.0.jar`：商城插件。
 
 外层压缩包只是把主题和插件放在一起，不能直接作为一个主题上传。
 
@@ -20,8 +20,8 @@ AOSTE 是一款用于 Halo 的网站主题，适合展示文章，也可以搭�
 ## 安装步骤
 
 1. 下载组合包并解压。
-2. 在 Halo 后台打开「插件」，上传 `plugin-commerce-0.2.9.jar`，安装并启用商城插件。
-3. 打开「外观 → 主题」，上传 `theme-aoset-1.19.14.zip`，然后启用 AOSTE。
+2. 在 Halo 后台打开「插件」，上传 `plugin-commerce-0.3.0.jar`，安装并启用商城插件。
+3. 打开「外观 → 主题」，上传 `theme-aoset-1.19.15.zip`，然后启用 AOSTE。
 4. 超级管理员进入主题后台的「更新」页，填写 ETS 授权码并「保存并验证」；也可打开 `/console/aoste/updates`。
 5. 进入主题的「首页布局」，配置首页内容并保存。
 

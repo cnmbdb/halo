@@ -3,6 +3,7 @@ function useAosteLicense() {
   const key = e.ref("");
   const busy = e.ref(false);
   const status = e.ref(null);
+  const csrfToken = e.ref("");
   const error = e.ref("");
   let alive = true;
   e.onUnmounted(() => { alive = false; key.value = ""; });
@@ -11,7 +12,7 @@ function useAosteLicense() {
     error.value = "";
     try {
       const response = await D.axiosInstance.get("/shop/api/admin/license");
-      if (alive) status.value = response.data;
+      if (alive) { status.value = response.data; csrfToken.value = response.data.csrfToken || ""; }
     } catch (cause) {
       if (alive) error.value = "无法读取授权状态，请确认插件已升级、已启用且当前账号具有超级管理员权限。";
     } finally { if (alive) busy.value = false; }
@@ -19,11 +20,14 @@ function useAosteLicense() {
   async function save() {
     if (busy.value) return;
     if (!key.value.trim()) { error.value = "请填写授权码。"; return; }
+    if (!csrfToken.value) { error.value = "Halo 安全校验未就绪，请刷新页面后重试。"; return; }
     busy.value = true;
     error.value = "";
     try {
-      const response = await D.axiosInstance.put("/shop/api/admin/license", { key: key.value.trim() });
-      if (alive) { status.value = response.data; key.value = ""; }
+      const response = await D.axiosInstance.put("/shop/api/admin/license", { key: key.value.trim() }, {
+        headers: { "X-XSRF-TOKEN": csrfToken.value },
+      });
+      if (alive) { status.value = response.data; csrfToken.value = response.data.csrfToken || csrfToken.value; key.value = ""; }
     } catch (cause) {
       // A rejected replacement must not overwrite the existing server credential/status.
       if (alive) error.value = cause.response?.data?.message || "授权未保存，请检查授权码、管理权限或授权服务网络后重试。";
@@ -31,11 +35,14 @@ function useAosteLicense() {
   }
   async function clear() {
     if (busy.value || !window.confirm("移除后主题和商城将停止对外服务，已有订单处理保留。确认移除授权？")) return;
+    if (!csrfToken.value) { error.value = "Halo 安全校验未就绪，请刷新页面后重试。"; return; }
     busy.value = true;
     error.value = "";
     try {
-      const response = await D.axiosInstance.delete("/shop/api/admin/license");
-      if (alive) { status.value = response.data; key.value = ""; }
+      const response = await D.axiosInstance.delete("/shop/api/admin/license", {
+        headers: { "X-XSRF-TOKEN": csrfToken.value },
+      });
+      if (alive) { status.value = response.data; csrfToken.value = response.data.csrfToken || csrfToken.value; key.value = ""; }
     } catch { if (alive) error.value = "授权移除失败，请稍后重试。"; }
     finally { if (alive) busy.value = false; }
   }

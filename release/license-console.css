@@ -1,7 +1,11 @@
-.aoste-license{padding:24px;margin-bottom:24px;border:1px solid #dbe2ea;border-radius:16px;background:#fff;color:#172033;line-height:1.7}
-.aoste-license h3{font-size:18px;font-weight:600;margin:0 0 8px}.aoste-license label{display:block;font-weight:500;margin-top:16px}
-.aoste-license-input{display:flex;gap:12px;margin-top:6px}.aoste-license-input input{min-width:0;flex:1;border:1px solid #94a3b8;border-radius:8px;padding:8px 12px;background:transparent;color:inherit}
-.aoste-license button{padding:8px 12px;border:1px solid #94a3b8;border-radius:8px;cursor:pointer}.aoste-license button:disabled{opacity:.5;cursor:wait}.aoste-license button.primary{background:#2563eb;color:white;border-color:#2563eb}
+.aoste-license{box-sizing:border-box;padding:22px;margin-bottom:24px;border:0;border-radius:16px;background:rgba(235,241,250,.62);color:inherit;font:inherit;line-height:1.6;box-shadow:0 8px 28px rgba(30,50,80,.045)}
+.aoste-license h3{margin:0 0 8px;font:inherit;font-weight:600}
+.aoste-license p{font:inherit}
+.aoste-license label{display:block;margin:16px 0 6px;font:inherit;font-weight:500}
+.aoste-license-input{display:flex;align-items:center;gap:12px;margin-top:4px}
+.aoste-license .aoste-license-input input#aoste-license-key{box-sizing:border-box;display:block;flex:1 1 0;width:100%;min-width:0;height:44px;padding:8px 12px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:inherit;font:inherit;outline:none}
+.aoste-license .aoste-license-input input#aoste-license-key:focus{border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.15)}
+.aoste-license button{padding:8px 12px;border:1px solid #94a3b8;border-radius:8px;font:inherit;cursor:pointer}.aoste-license button:disabled{opacity:.5;cursor:wait}.aoste-license button.primary{background:#2563eb;color:white;border-color:#2563eb}
 .aoste-license a{color:#1d4ed8;text-decoration:underline;text-underline-offset:3px}.aoste-license-help{margin:8px 0 12px}.aoste-license-actions{display:flex;gap:12px;margin-top:12px}.aoste-license-error{color:#b91c1c}
-.dark .aoste-license{background:#172033;color:#e2e8f0;border-color:#64748b}.dark .aoste-license a{color:#93c5fd}.dark .aoste-license-error{color:#fca5a5}
-@media(max-width:600px){.aoste-license{padding:16px}.aoste-license-input{flex-direction:column}.aoste-license-actions{flex-wrap:wrap}}
+.dark .aoste-license{background:rgba(30,41,59,.68);color:#e2e8f0}.dark .aoste-license .aoste-license-input input#aoste-license-key{border-color:#475569;background:#0f172a;color:#e2e8f0}.dark .aoste-license a{color:#93c5fd}.dark .aoste-license-error{color:#fca5a5}
+@media(max-width:600px){.aoste-license{padding:16px}.aoste-license-input{align-items:stretch;flex-direction:column}.aoste-license .aoste-license-input input#aoste-license-key{flex:initial}.aoste-license-actions{flex-wrap:wrap}}

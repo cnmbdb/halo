@@ -12,6 +12,8 @@ import org.springframework.mock.web.server.MockServerWebExchange;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
+import org.springframework.security.web.server.csrf.CsrfToken;
+import org.springframework.security.web.server.csrf.DefaultCsrfToken;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -131,11 +133,17 @@ class AosteLicenseTest {
         var routes = new AosteLicenseRoutes().aosteLicenseRoutes(licenses);
         for (String role : new String[]{"ROLE_anonymous", "ROLE_editor", "ROLE_super-role"}) {
             var exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/shop/api/admin/license"));
+            exchange.getAttributes().put(CsrfToken.class.getName(), Mono.just(new DefaultCsrfToken("X-XSRF-TOKEN", "_csrf", "session-bound-token")));
             var request = ServerRequest.create(exchange, HandlerStrategies.withDefaults().messageReaders());
             var auth = new UsernamePasswordAuthenticationToken("admin", "unused", java.util.List.of(new SimpleGrantedAuthority(role)));
             var response = routes.route(request).flatMap(handler -> handler.handle(request))
                 .contextWrite(ReactiveSecurityContextHolder.withAuthentication(auth)).block();
             assertEquals(role.equals("ROLE_super-role") ? 200 : 403, response.statusCode().value());
         }
+    }
+    @Test void csrfTokenIsReadFromHaloSecurityContext() {
+        var exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/shop/api/admin/license"));
+        exchange.getAttributes().put(CsrfToken.class.getName(), Mono.just(new DefaultCsrfToken("X-XSRF-TOKEN", "_csrf", "session-bound-token")));
+        assertEquals("session-bound-token", new AosteLicenseRoutes().csrfToken(exchange).block());
     }
 }
