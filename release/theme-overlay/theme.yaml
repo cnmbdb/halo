@@ -14,7 +14,7 @@ spec:
   issues: https://github.com/cnmbdb/halo/issues
   settingName: "theme-aoset-setting"
   configMapName: "theme-earth-configMap"
-  version: 1.19.15
+  version: 1.19.16
   requires: ">=2.22.0"
   license:
     - name: "GPL-3.0"

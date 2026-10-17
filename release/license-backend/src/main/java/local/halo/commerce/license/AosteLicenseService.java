@@ -16,7 +16,7 @@ import run.halo.app.extension.Secret;
 @Component
 public class AosteLicenseService {
     static final String SECRET = "aoste-authorization";
-    static final String VERIFY_URL = "https://ets.txsw.top/api/authorization/aoste";
+    static final String VERIFY_URL = "https://ets-web-admin.pages.dev/api/authorization/aoste";
     private final ReactiveExtensionClient client;
     private final WebClient ets;
     private String cachedKey;

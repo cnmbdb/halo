@@ -31,7 +31,7 @@ class AosteLicenseTest {
 
     AosteLicenseService service(String body, HttpStatus status) {
         WebClient http = WebClient.builder().exchangeFunction(request -> {
-            assertEquals(AosteLicenseService.VERIFY_URL, request.url().toString());
+            assertEquals("https://ets-web-admin.pages.dev/api/authorization/aoste", request.url().toString());
             assertEquals(HttpMethod.POST, request.method());
             return Mono.just(ClientResponse.create(status).header("Content-Type", "application/json").body(body).build());
         }).build();
