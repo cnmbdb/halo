@@ -42,16 +42,16 @@ for kind, name, number, path in (("theme", "theme-aoset", theme, theme_file), ("
 (out / "updates.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
 notes = f"""AOSTE 主题 {theme} · 商城插件 {plugin}
 
-主题与插件共用 ETS 授权入口：
-- 后台主题更新页与插件设置共用一份授权码，保存并验证后同时生效。
-- 如无授权码请前往获取（免费）：https://hfz.pw/shop/2678.html
-- 未授权时由服务端禁止主题页面、商品浏览与新下单；后台授权/更新入口、已有订单查询、交付与支付回调保留。
-- 授权码保存在 Halo Secret 中；授权失效、撤销或到期后停止对外服务。服务端最多缓存一分钟；授权服务故障时校验失败。
-- 主题依赖 Aoste主题插件 >=0.2.9，插件停用或缺失时显示授权提示页。
+首页文章与商城卡片优化：
+- 首页文章卡片移除作者头像与名称，保留发布日期设置。
+- 移除首页文章卡片已不再使用的“显示作者”设置。
+- 商城商品卡片改为上图下文，图片区域统一为 1:1 正方形，长标题不会撑高图片。
+- 商品卡片宽度跟随商城列数设置；保留图片等比裁切、商品链接与价格。
+- 商城插件维持 {plugin}，保留现有主题与插件统一授权逻辑。
 
-部署前先发布 ETS-admin 的 /api/authorization/aoste，再升级插件与主题并填写授权码。
-先在测试站验证授权，再应用生产站点；未授权的站点升级后将停止主题与商城服务。
-升级前请备份站点和主题自定义文件。
+升级前请备份站点和主题自定义文件。可从本发布页下载 theme-aoset-{theme}.zip，
+通过 Halo 主题升级上传安装，或使用后台独立更新入口。
+文章封面补齐属于站点内容数据，不包含在主题包内。
 
 ```aoste-update
 {json.dumps(manifest, ensure_ascii=False, indent=2)}

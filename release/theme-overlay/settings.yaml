@@ -368,10 +368,6 @@ spec:
                   label: 显示文章摘要
                   value: true
                 - $formkit: checkbox
-                  name: posts_author
-                  label: 显示作者
-                  value: true
-                - $formkit: checkbox
                   name: posts_date
                   label: 显示发布日期
                   value: true

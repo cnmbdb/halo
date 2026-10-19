@@ -1,0 +1,38 @@
+<article th:fragment="card(post,home)" class="home-post-card">
+  <a
+    class="home-post-cover"
+    th:if="${home.posts_cover != false}"
+    th:href="${post.status.permalink}"
+    tabindex="-1"
+    aria-hidden="true"
+  >
+    <img
+      th:if="${not #strings.isEmpty(post.spec.cover)}"
+      th:src="${post.spec.cover}"
+      alt=""
+      width="800"
+      height="500"
+      loading="lazy"
+      decoding="async"
+    />
+    <div th:if="${#strings.isEmpty(post.spec.cover)}" class="home-post-placeholder">
+      <span th:text="${site.title}"></span><span aria-hidden="true">✦</span>
+    </div>
+    <span class="home-post-pinned" th:if="${post.spec.pinned}">置顶</span>
+  </a>
+  <div class="home-post-copy" style="backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px)">
+    <h3><a th:href="${post.status.permalink}" th:text="${post.spec.title}"></a></h3>
+    <p
+      class="home-post-excerpt"
+      th:if="${home.posts_excerpt != false and not #strings.isEmpty(post.status.excerpt)}"
+      th:text="${post.status.excerpt}"
+    ></p>
+    <footer class="home-post-meta" th:if="${home.posts_date != false}">
+      <time
+        th:if="${home.posts_date != false and post.spec.publishTime != null}"
+        th:datetime="${post.spec.publishTime}"
+        th:text="${#dates.format(post.spec.publishTime,'yyyy-MM-dd')}"
+      ></time>
+    </footer>
+  </div>
+</article>
