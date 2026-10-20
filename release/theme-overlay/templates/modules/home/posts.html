@@ -1,0 +1,39 @@
+<section id="home-posts" class="home-section" th:if="${home.posts_enabled != false}" aria-label="文章列表" th:with="rankingEnabled=${home.posts_ranking_enabled != false}">
+  <link rel="stylesheet" href="/themes/theme-aoset/assets/post-ranking.css?v=4-columns-4" />
+  <script defer src="/themes/theme-aoset/assets/post-ranking.js?v=1"></script>
+  <div class="home-posts-layout" th:classappend="${(rankingEnabled or home.posts_sidebar == true ? 'with-sidebar' : '') + (rankingEnabled ? ' has-ranking' : '')}">
+    <div
+      class="home-posts-main"
+      th:attr="data-page-context=${#ctx.containsVariable('category') ? category.status.permalink + '/' : '/'}"
+    >
+      <div
+        id="post-list"
+        class="home-post-grid"
+        th:if="${posts.total > 0}"
+        th:classappend="${home.post_list_layout == 'single' ? 'is-list' : (home.post_list_layout == 'grid_2' ? 'columns-2' : (home.post_list_layout == 'grid_3' ? 'columns-3' : 'columns-4'))}"
+      >
+        <th:block th:each="post : ${posts.items}"
+          ><th:block th:replace="~{modules/home/post-card :: card(${post}, ${home})}"
+        /></th:block>
+      </div>
+      <div class="home-empty" th:if="${posts.total == 0}">
+        <span aria-hidden="true">✦</span>
+        <h3>故事即将开始</h3>
+        <p>暂时没有文章，欢迎稍后再来看看。</p>
+      </div>
+      <div class="home-filter-pagination">
+        <th:block
+          th:replace="~{modules/pagination :: pagination(context = '/', prevUrl = ${posts.prevUrl}, nextUrl = ${posts.nextUrl}, totalPages = ${posts.totalPages}, page = ${posts.page}, hasPrevious = ${posts.hasPrevious()}, hasNext = ${posts.hasNext()})}"
+        />
+      </div>
+    </div>
+    <aside class="home-posts-side" th:if="${rankingEnabled or home.posts_sidebar == true}" aria-label="文章侧栏">
+      <th:block th:if="${rankingEnabled}">
+        <th:block th:replace="~{modules/home/post-ranking :: ranking(${home})}" />
+      </th:block>
+      <th:block th:if="${home.posts_sidebar == true}">
+        <th:block th:replace="~{modules/sidebar :: sidebar(prepend = null)}" />
+      </th:block>
+    </aside>
+  </div>
+</section>

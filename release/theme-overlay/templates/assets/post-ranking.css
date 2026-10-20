@@ -1,0 +1,64 @@
+/* Homepage ranking sidebar: featured TOP1 and nine compact article rows. */
+#home-posts .home-posts-layout.with-sidebar {display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:24px;align-items:start}
+#home-posts .home-posts-side {min-width:0;display:flex;flex-direction:column;gap:24px}
+#home-posts .has-ranking .home-post-grid.columns-3 {grid-template-columns:repeat(3,minmax(0,1fr))}
+#home-posts .has-ranking .home-post-grid.columns-2 {grid-template-columns:repeat(2,minmax(0,1fr))}
+#home-post-ranking {background:var(--home-surface,#fff);border-radius:24px;padding:18px 16px;min-width:0;box-shadow:0 4px 24px rgba(15,23,42,.025)}
+#home-post-ranking .home-ranking-heading {font-size:18px;font-weight:650;line-height:1.5;margin:0 0 16px;padding:0 2px;color:var(--home-text,#18212c)}
+#home-post-ranking .home-ranking-list {list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:18px}
+#home-post-ranking .home-ranking-item {min-width:0;position:relative}
+#home-post-ranking .home-ranking-link {position:relative;display:flex;gap:12px;text-decoration:none;color:inherit;min-width:0;border-radius:14px;outline-offset:4px}
+#home-post-ranking .home-ranking-link:focus-visible {outline:2px solid var(--home-accent,#2563eb)}
+#home-post-ranking .home-ranking-cover {position:relative;flex:0 0 92px;width:92px;height:70px;border-radius:13px;overflow:hidden;background:var(--home-soft,#f1f5f9)}
+#home-post-ranking .home-ranking-cover img {display:block;object-fit:cover;width:100%;height:100%;transition:transform .25s}
+#home-post-ranking .home-ranking-placeholder {width:100%;height:100%;display:grid;place-items:center;padding:8px;color:var(--home-muted,#64748b);font-size:13px;overflow:hidden}
+#home-post-ranking .home-ranking-rank {position:absolute;top:6px;left:-8px;z-index:1;display:inline-flex;align-items:center;justify-content:center;min-width:44px;height:22px;padding:0 8px;border-radius:0 14px 14px 0;background:#87919b;color:white;font-size:12px;font-weight:650;font-style:italic;line-height:1;box-shadow:0 3px 9px #0f172a14}
+#home-post-ranking .home-ranking-rank[data-rank="1"] {background:#ff3465}
+#home-post-ranking .home-ranking-rank[data-rank="2"] {background:#ff6652}
+#home-post-ranking .home-ranking-rank[data-rank="3"] {background:#ff9448}
+#home-post-ranking .home-ranking-copy {min-width:0;flex:1;display:flex;flex-direction:column;justify-content:space-between;gap:8px}
+#home-post-ranking h3 {margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:14px;font-weight:550;line-height:1.5;color:var(--home-text,#475569)}
+#home-post-ranking .home-ranking-meta {display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px 8px;color:var(--home-muted,#94a3b8);font-size:11px;line-height:1.5}
+#home-post-ranking .home-ranking-date {display:inline-flex;align-items:center;gap:3px;white-space:nowrap}
+#home-post-ranking .home-ranking-visits {white-space:nowrap;font-variant-numeric:tabular-nums}
+#home-post-ranking .is-featured .home-ranking-link {display:block;overflow:visible}
+#home-post-ranking .is-featured .home-ranking-cover {width:100%;height:auto;aspect-ratio:16/10;border-radius:18px;position:relative}
+#home-post-ranking .is-featured .home-ranking-cover::after {content:"";position:absolute;inset:0;background:linear-gradient(transparent 25%,rgba(0,0,0,.6))}
+#home-post-ranking .is-featured .home-ranking-rank {height:30px;min-width:64px;font-size:18px;top:12px;left:-16px;padding:0 12px}
+#home-post-ranking .is-featured .home-ranking-copy {position:absolute;left:14px;right:14px;bottom:14px;gap:8px}
+#home-post-ranking .is-featured h3 {color:white;font-size:16px;line-height:1.5;order:2;text-shadow:0 1px 4px #0003}
+#home-post-ranking .is-featured .home-ranking-meta {order:1;color:white;justify-content:flex-start}
+#home-post-ranking .is-featured .home-ranking-date {display:none}
+#home-post-ranking .is-featured .home-ranking-visits {background:#000a;color:white;padding:3px 6px;border-radius:5px;font-size:12px;font-weight:600}
+#home-post-ranking .home-ranking-link:hover h3 {color:var(--home-accent,#2563eb)}
+#home-post-ranking .is-featured .home-ranking-link:hover h3 {color:white;text-decoration:underline}
+#home-post-ranking .home-ranking-link:hover img {transform:scale(1.025)}
+#home-post-ranking .home-ranking-empty {color:var(--home-muted,#94a3b8);padding:24px 0;text-align:center;font-size:14px}
+html.dark #home-post-ranking {background:#17191d}
+@media (min-width:768px) and (max-width:1100px) {
+ #home-posts .home-posts-layout.with-sidebar {grid-template-columns:minmax(0,1fr) 280px;gap:18px}
+ #home-post-ranking {padding:16px 12px}
+ #home-post-ranking .home-ranking-cover {flex-basis:80px;width:80px;height:68px}
+ #home-post-ranking .home-ranking-link {gap:10px}
+ #home-post-ranking .home-ranking-meta {font-size:10px}
+ #home-post-ranking .is-featured .home-ranking-cover {width:100%;height:auto}
+ #home-post-ranking .is-featured .home-ranking-rank {left:-12px}
+}
+@media (max-width:767px) {
+ #home-posts .home-posts-layout.with-sidebar {grid-template-columns:minmax(0,1fr);gap:24px}
+ #home-posts .has-ranking .home-post-grid.columns-3,#home-posts .has-ranking .home-post-grid.columns-2 {grid-template-columns:minmax(0,1fr)}
+ #home-post-ranking.ranking-hide-mobile {display:none}
+ #home-posts .home-posts-side:has(> .ranking-hide-mobile):not(:has(> :not(.ranking-hide-mobile))) {display:none}
+ #home-post-ranking .home-ranking-cover {flex-basis:100px;width:100px;height:76px}
+ #home-post-ranking .is-featured .home-ranking-cover {width:100%;height:auto;max-height:280px}
+}
+@media (prefers-reduced-motion:reduce) {#home-post-ranking .home-ranking-cover img {transition:none}}
+
+/* Respect the selected four-column layout alongside the ranking sidebar. */
+#home-posts .home-post-grid.columns-4 {grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+#home-posts .home-post-grid.columns-4 .home-post-card {padding:0;border-radius:18px}
+#home-posts .home-post-grid.columns-4 .home-post-cover {border-radius:17px 17px 0 0}
+#home-posts .home-post-grid.columns-4 .home-post-copy {padding:10px 12px 12px}
+#home-posts .home-post-grid.columns-4 h3 {font-size:15px;font-weight:400}
+@media (min-width:768px) and (max-width:1023px) {#home-posts .home-post-grid.columns-4 {grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:767px) {#home-posts .home-post-grid.columns-4 {grid-template-columns:minmax(0,1fr)}}

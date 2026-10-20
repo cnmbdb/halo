@@ -1,0 +1,29 @@
+<section th:fragment="ranking(home)" id="home-post-ranking" class="home-post-ranking"
+  th:classappend="${home.posts_ranking_mobile == false ? 'ranking-hide-mobile' : ''}"
+  th:with="rankingCount=${home.posts_ranking_count != null and #strings.toString(home.posts_ranking_count).matches('^([1-9]|1[0-9]|20)$') ? #conversions.convert(home.posts_ranking_count, 'java.lang.Integer') : 10}, rankingSort=${home.posts_ranking_sort == 'newest' ? 'spec.publishTime,desc' : 'stats.visit,desc'}, rankedPosts=${postFinder.list({page: 1, size: rankingCount, sort: {rankingSort}})}"
+  th:attr="aria-label=${home.posts_ranking_title ?: '热门文章'}">
+  <h2 class="home-ranking-heading" th:text="${home.posts_ranking_title ?: '热门文章'}"></h2>
+  <ol class="home-ranking-list">
+    <li class="home-ranking-item" th:each="rankedPost,rank : ${rankedPosts}"
+      th:classappend="${rank.first and home.posts_ranking_featured != false ? 'is-featured' : ''}">
+      <a class="home-ranking-link" th:href="${rankedPost.status.permalink}" th:title="${rankedPost.spec.title}">
+        <div class="home-ranking-cover">
+          <img th:if="${not #strings.isEmpty(rankedPost.spec.cover)}" th:src="${rankedPost.spec.cover}" alt="" width="400" height="240" loading="lazy" decoding="async" />
+          <div class="home-ranking-placeholder" th:if="${#strings.isEmpty(rankedPost.spec.cover)}" th:text="${site.title}"></div>
+        </div>
+        <span class="home-ranking-rank" th:attr="data-rank=${rank.count}" th:text="|TOP${rank.count}|"></span>
+        <div class="home-ranking-copy">
+          <h3 th:text="${rankedPost.spec.title}"></h3>
+          <div class="home-ranking-meta" th:if="${home.posts_ranking_date != false or home.posts_ranking_visits != false}">
+            <span class="home-ranking-date" th:if="${home.posts_ranking_date != false and rankedPost.spec.publishTime != null}">
+              <span class="i-tabler-clock" aria-hidden="true"></span>
+              <time th:datetime="${rankedPost.spec.publishTime}" th:text="${#dates.format(rankedPost.spec.publishTime,'yyyy-MM-dd')}" data-relative-time></time>
+            </span>
+            <span class="home-ranking-visits" th:if="${home.posts_ranking_visits != false}" th:text="|${rankedPost.stats.visit ?: 0} 人已阅读|"></span>
+          </div>
+        </div>
+      </a>
+    </li>
+  </ol>
+  <p class="home-ranking-empty" th:if="${#lists.isEmpty(rankedPosts)}">暂无文章</p>
+</section>

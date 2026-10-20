@@ -19,25 +19,31 @@ spec:
                 - $el: span
                   attrs:
                     style: "font-size: 17px; font-weight: 650;"
-                  children: 幻灯片区块
+                  children: 第一区块 · 三卡图片
                 - $el: p
                   attrs:
                     style: "margin: 8px 0 0; font-size: 13px; line-height: 1.7; color: #64748b; font-weight: 400;"
-                  children: 管理轮播内容、图片与跳转，设置自动播放和展示高度。
+                  children: 三张图片同时展示：左侧一张大卡，右侧上下两张小卡。
             - $el: div
               attrs:
                 style: "padding: 4px 24px 24px; border-top: 1px solid #f1f5f9;"
               children:
                 - $formkit: checkbox
                   name: slides_enabled
-                  label: 显示幻灯片区块
+                  label: 显示三卡图片区块
                   value: true
                 - $formkit: array
                   name: slides
-                  label: 幻灯片内容
-                  help: 仅展示图片；无图片的条目不展示。可拖动排序，图片可设置点击跳转。
+                  label: 三张卡片图片
+                  help: 按顺序展示前三张有效图片：第一张＝左侧大卡，第二张＝右上卡，第三张＝右下卡。可拖动排序，每张可单独设置跳转。
                   value:
-                    - title: 首页图片
+                    - title: 左侧大卡
+                      image: /themes/theme-aoset/screenshot.jpeg
+                      link: /archives
+                    - title: 右上卡
+                      image: /themes/theme-aoset/screenshot.jpeg
+                      link: /archives
+                    - title: 右下卡
                       image: /themes/theme-aoset/screenshot.jpeg
                       link: /archives
                   itemLabels:
@@ -57,22 +63,10 @@ spec:
                       name: link
                       label: 跳转链接
                       help: 支持站内路径或 http(s) 链接。
-                - $formkit: checkbox
-                  name: slides_autoplay
-                  label: 自动轮播
-                  value: true
-                  help: 鼠标悬停、键盘焦点进入、页面隐藏时暂停；跟随系统减少动态效果设置。
-                - $formkit: number
-                  name: slides_interval
-                  label: 自动轮播间隔（秒）
-                  value: 6
-                  min: 3
-                  max: 30
-                  validation: required|number|min:3|max:30
                 - $formkit: select
                   name: slides_height
-                  label: 幻灯片高度
-                  help: 全高度占满视口剩余高度；自适应按当前图片比例完整展示，不裁切。
+                  label: 三卡区块高度
+                  help: 调整整个三卡区块的高度；自适应按区块比例缩放，图片等比裁切填满卡片。
                   value: comfortable
                   options:
                     - label: 紧凑
@@ -307,7 +301,7 @@ spec:
                     - $formkit: attachment
                       name: image
                       label: 左侧图片
-                      help: 留空使用默认图案。
+                      help: 留空使用下方共用图片；共用图片也为空时使用默认图案。
                     - $formkit: text
                       name: title
                       label: 显示名称
@@ -320,8 +314,8 @@ spec:
                   help: 留空展示全部分类；按选择顺序展示，移除后重新选择可调整顺序。
                 - $formkit: attachment
                   name: categories_image
-                  label: 自动展示共用图片
-                  help: 留空使用默认图案；显示在胶囊按钮左侧。
+                  label: 分类按钮共用图片
+                  help: 未单独设置图片的分类按钮统一使用此图片，自动展示的分类也使用此图片；留空使用默认图案。
         - $el: details
           attrs:
             open: false
@@ -338,7 +332,7 @@ spec:
                 - $el: p
                   attrs:
                     style: "margin: 8px 0 0; font-size: 13px; line-height: 1.7; color: #64748b; font-weight: 400;"
-                  children: 设置文章布局、展示字段和侧边栏，沿用站点文章分页。
+                  children: 图片铺满卡片顶部，标题最多两行并预留高度；卡片不显示分类和日期。支持布局和侧边栏设置。
             - $el: div
               attrs:
                 style: "padding: 4px 24px 24px; border-top: 1px solid #f1f5f9;"
@@ -350,8 +344,10 @@ spec:
                 - $formkit: select
                   name: post_list_layout
                   label: 文章卡片布局
-                  value: grid_3
+                  value: grid_4
                   options:
+                    - label: 网格（一行四列）
+                      value: grid_4
                     - label: 网格（一行三列）
                       value: grid_3
                     - label: 网格（一行两列）
@@ -364,18 +360,67 @@ spec:
                   label: 显示文章封面
                   value: true
                 - $formkit: checkbox
-                  name: posts_excerpt
-                  label: 显示文章摘要
-                  value: true
-                - $formkit: checkbox
-                  name: posts_date
-                  label: 显示发布日期
-                  value: true
-                - $formkit: checkbox
                   name: posts_sidebar
                   label: 在文章列表右侧显示侧边栏
                   value: false
                   help: 侧边栏内容在「侧边栏」标签页配置，移动端显示在文章列表下方。
+        - $el: details
+          attrs:
+            open: false
+            style: "margin: 20px 0; border: 1px solid #e2e8f0; border-radius: 16px; background: #fff;"
+          children:
+            - $el: summary
+              attrs:
+                style: "cursor: pointer; padding: 22px 24px; color: #0f172a; font-size: 17px; font-weight: 650;"
+              children: 文章右侧 · 阅读排行榜
+            - $el: div
+              attrs:
+                style: "padding: 4px 24px 24px; border-top: 1px solid #f1f5f9;"
+              children:
+                - $el: p
+                  children: 文章卡片右侧显示排行榜：首篇大图，其余缩略图列表。默认按阅读量展示全站前 10 篇文章，独立于首页分类筛选。
+                - $formkit: checkbox
+                  name: posts_ranking_enabled
+                  label: 显示文章右侧排行榜
+                  value: true
+                - $formkit: text
+                  name: posts_ranking_title
+                  label: 区块标题
+                  value: 热门文章
+                - $formkit: number
+                  name: posts_ranking_count
+                  label: 展示文章数量
+                  value: 10
+                  min: 1
+                  max: 20
+                  validation: required|number|min:1|max:20
+                - $formkit: select
+                  name: posts_ranking_sort
+                  label: 排序方式
+                  value: visits
+                  options:
+                    - label: 阅读量从高到低
+                      value: visits
+                    - label: 最新发布优先
+                      value: newest
+                - $formkit: checkbox
+                  name: posts_ranking_featured
+                  label: 第一篇使用大图展示
+                  value: true
+                - $formkit: checkbox
+                  name: posts_ranking_visits
+                  label: 显示阅读人数
+                  value: true
+                - $formkit: checkbox
+                  name: posts_ranking_date
+                  label: 显示发布时间
+                  value: true
+                  help: 普通列表项显示相对时间，首篇大图优先展示标题与阅读量。
+                - $formkit: checkbox
+                  name: posts_ranking_mobile
+                  label: 手机端显示排行榜
+                  value: true
+                  help: 手机端放在文章列表下方；桌面端位于右侧。左侧文章列数沿用「文章卡片布局」设置。
         - $el: details
           attrs:
             style: "margin: 20px 0; border: 1px solid #e2e8f0; border-radius: 14px; background: #fff;"
