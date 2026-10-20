@@ -1,0 +1,82 @@
+<section
+  id="home-categories"
+  class="home-section"
+  th:if="${home.categories_enabled != false}"
+  th:with="homeCategories=${#lists.isEmpty(home.category_names) ? categoryFinder.listAll() : categoryFinder.getByNames(home.category_names)}"
+  aria-label="文章分类"
+>
+  <div
+    class="home-category-grid is-pills"
+    th:unless="${#lists.isEmpty(home.category_buttons) and #lists.isEmpty(homeCategories)}"
+  >
+    <th:block th:if="${not #lists.isEmpty(home.category_buttons)}" th:each="button : ${home.category_buttons}">
+      <th:block
+        th:with="category=${button.type == 'all' or #strings.isEmpty(button.category) ? null : categoryFinder.getByName(button.category)}, categoryButtonImage=${#strings.isEmpty(button.image) ? home.categories_image : button.image}"
+      >
+        <a
+          th:if="${button.type == 'all' or category != null}"
+          class="home-category-card"
+          style="backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px)"
+          th:href="${button.type == 'all' ? '/' : category.status.permalink}"
+        >
+          <img
+            class="home-category-icon"
+            th:if="${not #strings.isEmpty(categoryButtonImage)}"
+            th:src="${categoryButtonImage == '/themes/theme-aoset/screenshot.png' or #strings.startsWith(categoryButtonImage, '/themes/theme-aoset/screenshot.png?') ? #strings.replace(categoryButtonImage, '/themes/theme-aoset/screenshot.png', '/themes/theme-aoset/screenshot.jpeg') : categoryButtonImage}"
+            alt=""
+            width="32"
+            height="32"
+            loading="lazy"
+          />
+          <svg
+            class="home-category-icon"
+            th:unless="${not #strings.isEmpty(categoryButtonImage)}"
+            viewBox="0 0 32 32"
+            aria-hidden="true"
+          >
+            <rect x="3" y="3" width="11" height="11" rx="4" fill="currentColor" opacity=".9" />
+            <rect x="18" y="3" width="11" height="11" rx="4" fill="currentColor" opacity=".45" />
+            <rect x="3" y="18" width="11" height="11" rx="4" fill="currentColor" opacity=".45" />
+            <rect x="18" y="18" width="11" height="11" rx="4" fill="currentColor" opacity=".9" />
+          </svg>
+          <h3
+            th:text="${#strings.isEmpty(button.title) ? (button.type == 'all' ? '全部' : category.spec.displayName) : button.title}"
+          ></h3>
+        </a>
+      </th:block>
+    </th:block>
+    <th:block th:if="${#lists.isEmpty(home.category_buttons)}">
+      <a
+        class="home-category-card"
+        style="backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px)"
+        th:each="category,stat : ${homeCategories}"
+        th:href="${category.status.permalink}"
+      >
+        <img
+          class="home-category-icon"
+          th:if="${not #strings.isEmpty(home.categories_image)}"
+          th:src="${home.categories_image == '/themes/theme-aoset/screenshot.png' or #strings.startsWith(home.categories_image, '/themes/theme-aoset/screenshot.png?') ? #strings.replace(home.categories_image, '/themes/theme-aoset/screenshot.png', '/themes/theme-aoset/screenshot.jpeg') : home.categories_image}"
+          alt=""
+          width="32"
+          height="32"
+          loading="lazy"
+        />
+        <svg
+          class="home-category-icon"
+          th:unless="${not #strings.isEmpty(home.categories_image)}"
+          viewBox="0 0 32 32"
+          aria-hidden="true"
+        >
+          <rect x="3" y="3" width="11" height="11" rx="4" fill="currentColor" opacity=".9" />
+          <rect x="18" y="3" width="11" height="11" rx="4" fill="currentColor" opacity=".45" />
+          <rect x="3" y="18" width="11" height="11" rx="4" fill="currentColor" opacity=".45" />
+          <rect x="18" y="18" width="11" height="11" rx="4" fill="currentColor" opacity=".9" />
+        </svg>
+        <h3 th:text="${category.spec.displayName}"></h3>
+      </a>
+    </th:block>
+  </div>
+  <p class="home-empty" th:if="${#lists.isEmpty(home.category_buttons) and #lists.isEmpty(homeCategories)}">
+    还没有可展示的分类，精彩内容即将到来。
+  </p>
+</section>

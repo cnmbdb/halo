@@ -20,19 +20,7 @@
     </div>
     <span class="home-post-pinned" th:if="${post.spec.pinned}">置顶</span>
   </a>
-  <div class="home-post-copy" style="backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px)">
-    <h3><a th:href="${post.status.permalink}" th:text="${post.spec.title}"></a></h3>
-    <p
-      class="home-post-excerpt"
-      th:if="${home.posts_excerpt != false and not #strings.isEmpty(post.status.excerpt)}"
-      th:text="${post.status.excerpt}"
-    ></p>
-    <footer class="home-post-meta" th:if="${home.posts_date != false}">
-      <time
-        th:if="${home.posts_date != false and post.spec.publishTime != null}"
-        th:datetime="${post.spec.publishTime}"
-        th:text="${#dates.format(post.spec.publishTime,'yyyy-MM-dd')}"
-      ></time>
-    </footer>
+  <div class="home-post-copy">
+    <h3><a th:href="${post.status.permalink}" th:title="${post.spec.title}" th:text="${post.spec.title}"></a></h3>
   </div>
 </article>

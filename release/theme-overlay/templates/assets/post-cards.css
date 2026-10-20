@@ -1,0 +1,26 @@
+/* Article cards: edge-to-edge cover and compact, regular-weight title. */
+#home-posts .home-post-card {padding:0;border-radius:20px;background:var(--home-surface,#fff);border:1px solid rgba(148,163,184,.08);box-shadow:0 4px 24px rgba(15,23,42,.025);min-width:0;gap:0;overflow:hidden}
+#home-posts .home-post-cover {border-radius:19px 19px 0 0;aspect-ratio:16/10;overflow:hidden}
+#home-posts .home-post-copy {min-width:0;padding:12px 14px 14px;background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;display:flex;flex-direction:column}
+#home-posts .home-post-card h3 {min-width:0;font-size:16px;line-height:1.45;font-weight:400;letter-spacing:0;margin:0}
+#home-posts .home-post-card h3 a {display:-webkit-box;white-space:normal;overflow:hidden;text-overflow:ellipsis;max-width:100%;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;min-height:2.9em}
+html.dark #home-posts .home-post-card {background:#17191d;border-color:#262a31}
+#home-posts .home-post-grid.is-list .home-post-card {gap:18px}
+#home-posts .home-post-grid.is-list .home-post-card {padding:0}
+#home-posts .home-post-grid.is-list .home-post-cover {border-radius:19px 0 0 19px}
+#home-posts .home-post-grid.is-list .home-post-copy {flex:1;padding:14px;min-width:0}
+#home-posts .home-filter-pagination .mt-6.flex {gap:12px}
+#home-posts .home-filter-pagination .mt-6.flex > a {min-height:40px;border-radius:999px;border-color:#dbe3ee;padding:7px 18px;box-shadow:0 2px 8px rgba(15,23,42,.04);transition:background .15s,border-color .15s,color .15s}
+#home-posts .home-filter-pagination .mt-6.flex > a:hover {border-color:#b7c8df;background:#f8fafc}
+#home-posts .home-filter-pagination select#pagination {min-height:40px;min-width:86px;border:1px solid #dbe3ee;border-radius:999px;padding:6px 14px;text-align:center;background:var(--home-surface,#fff);box-shadow:0 2px 8px rgba(15,23,42,.04)}
+html.dark #home-posts .home-filter-pagination .mt-6.flex > a,html.dark #home-posts .home-filter-pagination select#pagination {border-color:#3b424d;background:#17191d;color:#e5e7eb}
+html.dark #home-posts .home-filter-pagination .mt-6.flex > a:hover {border-color:#596779;background:#20242b}
+@media (max-width:767px) {
+ #home-posts .home-post-card {border-radius:18px}
+ #home-posts .home-post-cover {border-radius:17px 17px 0 0}
+ #home-posts .home-post-copy {padding:10px 12px 12px}
+ #home-posts .home-post-card h3 {font-size:15px}
+ #home-posts .home-post-grid.is-list .home-post-card {gap:0}
+ #home-posts .home-post-grid.is-list .home-post-cover {border-radius:17px 0 0 17px}
+ #home-posts .home-post-grid.is-list .home-post-copy {padding:12px}
+}
